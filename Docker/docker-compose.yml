@@ -4,15 +4,18 @@ services:
 
 # Data bases
     mongo-db:
-        image: mongo:latest
-        restart: always
-        hostname: mongo-db
-        container_name: fiware-mongo
-        ports:
-            - "27017:27017"
-        volumes:
-            - db-data:/data/db
-
+      image: mongo:latest  
+      restart: always
+      hostname: mongo-db
+      container_name: fiware-mongo
+      ports:
+        - "27017:27017"
+      volumes:
+        - db-data:/data/db
+      environment:
+        - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
+        - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PWD}
+        
 # Orion is the context broker
     orion:
         image: letsfiware/orion:3.10.1
@@ -23,7 +26,7 @@ services:
             - mongo-db
         ports:
             - "1026:1026"
-        command: -dbhost mongo-db -corsOrigin __ALL -corsMaxAge 600
+        command: -dbhost mongo-db -corsOrigin __ALL -corsMaxAge 600 -dbuser $MONGO_USER -dbpwd $MONGO_PWD
 
 # Persistent Data
     fiware-sth-comet:
@@ -38,7 +41,9 @@ services:
         environment:
             - STH_HOST=0.0.0.0
             - STH_PORT=8666
-            - DB_PREFIX=sth_
+            - DB_PREFIX=sth_?authSource=admin
+            - DB_USERNAME=${MONGO_USER}
+            - DB_PASSWORD=${MONGO_PWD}
             - DB_URI=mongo-db:27017
             - LOGOPS_LEVEL=DEBUG
 
@@ -59,18 +64,18 @@ services:
 
 # MQTT Broker to NGSI
     iot-agent:
-        image: letsfiware/iotagent-ul:2.4.2
-        restart: always
-        hostname: iot-agent
-        container_name: fiware-iot-agent
-        depends_on:
-            - mongo-db
-            - mosquitto
-        expose:
-            - "4041"
-        ports:
-            - "4041:4041"
-        environment:
+      image: letsfiware/iotagent-ul:2.4.2
+      restart: always
+      hostname: iot-agent
+      container_name: fiware-iot-agent
+      depends_on:
+        - mongo-db
+        - mosquitto
+      expose:
+        - "4041"
+      ports:
+        - "4041:4041"
+      environment:
             - IOTA_CB_HOST=orion
             - IOTA_CB_PORT=1026
             - IOTA_NORTH_PORT=4041
@@ -81,7 +86,9 @@ services:
             - IOTA_AUTOCAST=true
             - IOTA_MONGO_HOST=mongo-db
             - IOTA_MONGO_PORT=27017
-            - IOTA_MONGO_DB=iotagentul
+            - IOTA_MONGO_DB=iotagent-ul?authSource=admin
+            - IOTA_MONGO_USER=${MONGO_USER}
+            - IOTA_MONGO_PASSWORD=${MONGO_PWD}
             - IOTA_PROVIDER_URL=http://iot-agent:4041
             - IOTA_MQTT_HOST=mosquitto
             - IOTA_MQTT_PORT=1883
@@ -91,7 +98,7 @@ services:
         image: mcr.microsoft.com/azure-sql-edge:latest
         restart: always
         environment:
-            SA_PASSWORD: "senha" # Username is 'SA'
+            SA_PASSWORD: ${SQL_PWD}
             ACCEPT_EULA: "Y"
             MSSQL_PID: "Developer"
         expose:
