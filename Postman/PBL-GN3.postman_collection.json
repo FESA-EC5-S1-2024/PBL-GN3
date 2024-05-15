@@ -15,12 +15,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{host}}:{{IoT-Agent MQTT}}/iot/about",
+							"raw": "http://{{host}}:{{IOT-AGENT_PORT}}/iot/about",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
-							"port": "{{IoT-Agent MQTT}}",
+							"port": "{{IOT-AGENT_PORT}}",
 							"path": [
 								"iot",
 								"about"
@@ -49,15 +49,15 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n \"services\": [\n   {\n     \"apikey\":      \"PBL-GN3\",               // Chave de acesso para o serviço (API Key)\n     \"cbroker\":     \"http://{{host}}:{{Orion Context Broker}}\", // URL do Orion Context Broker associado ao serviço\n     \"entity_type\": \"Thing\",             // Tipo de entidade associado ao serviço\n     \"resource\":    \"\"                   // Recurso associado ao serviço (pode estar vazio)\n   }\n ]\n}\n"
+							"raw": "{\n \"services\": [\n   {\n     \"apikey\":      \"TEF\",\n     \"cbroker\":     \"http://{{host}}:{{ORION_PORT}}\",\n     \"entity_type\": \"Thing\",\n     \"resource\":    \"\"\n   }\n ]\n}\n"
 						},
 						"url": {
-							"raw": "http://{{host}}:{{IoT-Agent MQTT}}/iot/services",
+							"raw": "http://{{host}}:{{IOT-AGENT_PORT}}/iot/services",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
-							"port": "{{IoT-Agent MQTT}}",
+							"port": "{{IOT-AGENT_PORT}}",
 							"path": [
 								"iot",
 								"services"
@@ -81,12 +81,12 @@
 							}
 						],
 						"url": {
-							"raw": "http://{{host}}:{{IoT-Agent MQTT}}/iot/services",
+							"raw": "http://{{host}}:{{IOT-AGENT_PORT}}/iot/services",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
-							"port": "{{IoT-Agent MQTT}}",
+							"port": "{{IOT-AGENT_PORT}}",
 							"path": [
 								"iot",
 								"services"
@@ -114,12 +114,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://{{host}}:{{IoT-Agent MQTT}}/iot/services/?resource=&apikey=TEF",
+							"raw": "http://{{host}}:{{IOT-AGENT_PORT}}/iot/services/?resource=&apikey=TEF",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
-							"port": "{{IoT-Agent MQTT}}",
+							"port": "{{IOT-AGENT_PORT}}",
 							"path": [
 								"iot",
 								"services",
@@ -164,15 +164,15 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"devices\": [\n    {\n      \"device_id\":   \"temp003\",         // Identificador único do dispositivo\n      \"entity_name\": \"{{entity_name}}\",   // Nome da entidade para o dispositivo\n      \"entity_type\": \"Temp\",          // Tipo da entidade\n      \"protocol\":    \"PDI-IoTA-UltraLight\",  // Protocolo usado para a comunicação\n      \"transport\":   \"MQTT\",            // Método de transporte\n\n      // Lista de atributos associados ao dispositivo\n      \"attributes\": [\n        { \"object_id\": \"t\", \"name\": \"temperature\", \"type\": \"float\" }  // Atributo de luminosidade (Inteiro)\n      ]\n    }\n  ]\n}\n"
+							"raw": "{\n  \"devices\": [\n    {\n      \"device_id\":   \"{{device_id}}\",\n      \"entity_name\": \"{{entity_name}}\",\n      \"entity_type\": \"Temp\",\n      \"protocol\":    \"PDI-IoTA-UltraLight\",\n      \"transport\":   \"MQTT\",\n\n      \"attributes\": [\n        { \"object_id\": \"t\", \"name\": \"temperature\", \"type\": \"Float\" }\n      ]\n    }\n  ]\n}\n"
 						},
 						"url": {
-							"raw": "http://{{host}}:{{IoT-Agent MQTT}}/iot/devices",
+							"raw": "http://{{host}}:{{IOT-AGENT_PORT}}/iot/devices",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
-							"port": "{{IoT-Agent MQTT}}",
+							"port": "{{IOT-AGENT_PORT}}",
 							"path": [
 								"iot",
 								"devices"
@@ -196,12 +196,12 @@
 							}
 						],
 						"url": {
-							"raw": "http://{{host}}:{{IoT-Agent MQTT}}/iot/devices",
+							"raw": "http://{{host}}:{{IOT-AGENT_PORT}}/iot/devices",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
-							"port": "{{IoT-Agent MQTT}}",
+							"port": "{{IOT-AGENT_PORT}}",
 							"path": [
 								"iot",
 								"devices"
@@ -229,12 +229,12 @@
 							}
 						],
 						"url": {
-							"raw": "http://{{host}}:{{Orion Context Broker}}/v2/entities/{{entity_name}}/attrs/temperature",
+							"raw": "http://{{host}}:{{ORION_PORT}}/v2/entities/{{entity_name}}/attrs/temperature",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
-							"port": "{{Orion Context Broker}}",
+							"port": "{{ORION_PORT}}",
 							"path": [
 								"v2",
 								"entities",
@@ -261,16 +261,16 @@
 							}
 						],
 						"url": {
-							"raw": "http://{{host}}:{{IoT-Agent MQTT}}/iot/devices/temp003",
+							"raw": "http://{{host}}:{{IOT-AGENT_PORT}}/iot/devices/{{device_id}}",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
-							"port": "{{IoT-Agent MQTT}}",
+							"port": "{{IOT-AGENT_PORT}}",
 							"path": [
 								"iot",
 								"devices",
-								"temp003"
+								"{{device_id}}"
 							]
 						}
 					},
@@ -309,12 +309,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{host}}:{{STH-Comet}}/version",
+							"raw": "http://{{host}}:{{STH-COMET_PORT}}/version",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
-							"port": "{{STH-Comet}}",
+							"port": "{{STH-COMET_PORT}}",
 							"path": [
 								"version"
 							]
@@ -342,15 +342,15 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"description\": \"STH subscription\", // Descrição da notificação\r\n    \"subject\": {\r\n        \"entities\": [\r\n            {\r\n                \"id\": \"{{entity_name}}\",\r\n                \"type\": \"Temp\"\r\n            }\r\n        ],\r\n        \"condition\": { \"attrs\": [\"temperature\"] }\r\n    },\r\n    \"notification\": {\r\n        \"http\": {\r\n            \"url\": \"http://sth-comet:{{STH-Comet}}/notify\" // URL para notificação do STH-Comet\r\n        },\r\n        \"attrs\": [\r\n            \"temperature\" // Atributo a ser notificado (luminosidade)\r\n        ],\r\n        \"attrsFormat\": \"legacy\" // Formato dos atributos a ser notificado (legado)\r\n    } \r\n}"
+							"raw": "{\r\n    \"description\": \"STH subscription\",\r\n    \"subject\": {\r\n        \"entities\": [\r\n            {\r\n                \"id\": \"{{entity_name}}\",\r\n                \"type\": \"Temp\"\r\n            }\r\n        ],\r\n        \"condition\": { \"attrs\": [\"temperature\"] }\r\n    },\r\n    \"notification\": {\r\n        \"http\": {\r\n            \"url\": \"http://sth-comet:{{STH-Comet}}/notify\"\r\n        },\r\n        \"attrs\": [\r\n            \"temperature\"\r\n        ],\r\n        \"attrsFormat\": \"legacy\"\r\n    } \r\n}"
 						},
 						"url": {
-							"raw": "http://{{host}}:{{Orion Context Broker}}/v2/subscriptions",
+							"raw": "http://{{host}}:{{ORION_PORT}}/v2/subscriptions",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
-							"port": "{{Orion Context Broker}}",
+							"port": "{{ORION_PORT}}",
 							"path": [
 								"v2",
 								"subscriptions"
@@ -374,12 +374,12 @@
 							}
 						],
 						"url": {
-							"raw": "http://{{host}}:{{STH-Comet}}/STH/v2/entities/{{entity_name}}/attrs/temperature?lastN=30&type=Temp",
+							"raw": "http://{{host}}:{{STH-COMET_PORT}}/STH/v2/entities/{{entity_name}}/attrs/temperature?type=Temp&lastN=30",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
-							"port": "{{STH-Comet}}",
+							"port": "{{STH-COMET_PORT}}",
 							"path": [
 								"STH",
 								"v2",
@@ -389,6 +389,10 @@
 								"temperature"
 							],
 							"query": [
+								{
+									"key": "type",
+									"value": "Temp"
+								},
 								{
 									"key": "hLimit",
 									"value": "100",
@@ -427,10 +431,6 @@
 								{
 									"key": "lastN",
 									"value": "30"
-								},
-								{
-									"key": "type",
-									"value": "Temp"
 								}
 							]
 						}
@@ -448,12 +448,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{host}}:{{Orion Context Broker}}/version",
+							"raw": "http://{{host}}:{{ORION_PORT}}/version",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
-							"port": "{{Orion Context Broker}}",
+							"port": "{{ORION_PORT}}",
 							"path": [
 								"version"
 							]
@@ -481,15 +481,15 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"id\": \"{{entity_name}}\",\r\n  \"type\": \"iot\",\r\n\r\n  \"temperature\": {\r\n  \"type\": \"float\",\r\n  \"value\": 0\r\n    }\r\n}\r\n\r\n  \r\n"
+							"raw": "{\r\n  \"id\": \"temp003\",\r\n  \"type\": \"Temp\",\r\n\r\n  \"temperature\": {\r\n  \"type\": \"Float\",\r\n  \"value\": 0\r\n    }\r\n}\r\n"
 						},
 						"url": {
-							"raw": "http://{{host}}:{{Orion Context Broker}}/v2/entities",
+							"raw": "http://{{host}}:{{ORION_PORT}}/v2/entities",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
-							"port": "{{Orion Context Broker}}",
+							"port": "{{ORION_PORT}}",
 							"path": [
 								"v2",
 								"entities"
@@ -518,12 +518,12 @@
 							}
 						],
 						"url": {
-							"raw": "http://{{host}}:{{Orion Context Broker}}/v2/entities",
+							"raw": "http://{{host}}:{{ORION_PORT}}/v2/entities",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
-							"port": "{{Orion Context Broker}}",
+							"port": "{{ORION_PORT}}",
 							"path": [
 								"v2",
 								"entities"
@@ -552,15 +552,15 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"temperature\": {\r\n  \"type\": \"float\",\r\n  \"value\":35\r\n    }\r\n}\r\n"
+							"raw": "{\r\n  \"temperature\": {\r\n  \"type\": \"Float\",\r\n  \"value\":35\r\n    }\r\n}\r\n"
 						},
 						"url": {
-							"raw": "http://{{host}}:{{Orion Context Broker}}/v2/entities/{{entity_name}}/attrs",
+							"raw": "http://{{host}}:{{ORION_PORT}}/v2/entities/{{entity_name}}/attrs",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
-							"port": "{{Orion Context Broker}}",
+							"port": "{{ORION_PORT}}",
 							"path": [
 								"v2",
 								"entities",
@@ -590,12 +590,12 @@
 							"raw": "95"
 						},
 						"url": {
-							"raw": "http://{{host}}:{{Orion Context Broker}}/v2/entities/{{entity_name}}/attrs/temperature/value",
+							"raw": "http://{{host}}:{{ORION_PORT}}/v2/entities/{{entity_name}}/attrs/temperature/value",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
-							"port": "{{Orion Context Broker}}",
+							"port": "{{ORION_PORT}}",
 							"path": [
 								"v2",
 								"entities",
@@ -627,12 +627,12 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "http://{{host}}:{{Orion Context Broker}}/v2/entities/{{entity_name}}",
+							"raw": "http://{{host}}:{{ORION_PORT}}/v2/entities/{{entity_name}}",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
-							"port": "{{Orion Context Broker}}",
+							"port": "{{ORION_PORT}}",
 							"path": [
 								"v2",
 								"entities",
