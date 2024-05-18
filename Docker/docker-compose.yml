@@ -46,7 +46,7 @@ services:
     environment:
       - STH_HOST=0.0.0.0
       - STH_PORT=8666
-      - DB_PREFIX=sth_
+      - DB_PREFIX=sth_comet
       - DB_USERNAME=${MONGO_USER}
       - DB_PASSWORD=${MONGO_PWD}
       - DB_URI=mongo-db:27017
