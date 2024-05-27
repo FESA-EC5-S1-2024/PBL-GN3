@@ -14,7 +14,6 @@ void setup() {
 
 void loop() {
   VerificaConexoesWiFIEMQTT();
-  readTemperature();
   MQTT.loop();
   delay(1000);
 }

@@ -13,12 +13,14 @@
 #define TOPICO_PUBLISH_2 ("/PBL-GN3/temp003/attrs/t") // Tópico MQTT de envio de informações para
                                 // Broker
 #define ID_MQTT ("fiware_002") // ID MQTT
+                               //
 #define D4 (2)                   // Pino do LED onboard
+
 // Declaração da variável para o prefixo do tópico
 #define topicPrefix ("temp003")
 
-#define temperaturePin 34
-
+#define TEMPERATURE_PIN 34
+#define SAMPLES 10
 extern WiFiClient espClient;
 extern PubSubClient MQTT;
 

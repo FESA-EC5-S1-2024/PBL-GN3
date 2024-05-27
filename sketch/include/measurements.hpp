@@ -1,3 +1,5 @@
 #pragma once
 
-void readTemperature();
+float highResolutionTemperature();
+float lowResolutionTemperature();
+
