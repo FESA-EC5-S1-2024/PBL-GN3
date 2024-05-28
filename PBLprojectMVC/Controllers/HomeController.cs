@@ -1,38 +1,54 @@
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Http;
+using System.Net.Http;
+using System.Text.Json;
 using PBLprojectMVC.Models;
-using System.Diagnostics;
 
-namespace PBLprojectMVC.Controllers
+namespace PBLprojectMVC.Controllers;
+
+public class HomeController : Controller
 {
-    public class HomeController : Controller
+    private readonly ILogger<HomeController> _logger;
+
+    public HomeController(ILogger<HomeController> logger)
     {
-        private readonly ILogger<HomeController> _logger;
+        _logger = logger;
+    }
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+    public IActionResult Index()
+    {
+        return View();
+    }
 
-        public IActionResult Index()
-        {
+    public async Task<JsonResult> Request()
+    {
+        var data = await Request_D();
+        return Json(data);
+    }
 
-            ViewBag.UserLogin = HelperController.LoginSessionVerification(HttpContext.Session);
-            ViewBag.IsAdmin = HelperController.AdminSessitionVerification(HttpContext.Session);
+    public async Task<JsonElement> Request_D()
+    {
+        var client = new HttpClient();
+        var request = new HttpRequestMessage(HttpMethod.Get, "http://146.235.34.235:8666/STH/v2/entities/urn:ngsi-ld:Temp:003/attrs/temperature?type=Temp&lastN=60");
+        request.Headers.Add("fiware-service", "smart");
+        request.Headers.Add("fiware-servicepath", "/");
 
-            return View();
-        }
+        var response = await client.SendAsync(request);
+        response.EnsureSuccessStatusCode();
+        string responseBody = await response.Content.ReadAsStringAsync();
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+        using var jsonDoc = JsonDocument.Parse(responseBody);
+        return jsonDoc.RootElement.Clone();
+    }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+    public IActionResult Privacy()
+    {
+        return View();
+    }
+
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error()
+    {
+        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }

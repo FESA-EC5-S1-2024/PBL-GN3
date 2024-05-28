@@ -3,19 +3,22 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - PBLprojectMVC</title>
+    <title>@ViewData["Title"] - Data_PBL</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/PBLprojectMVC.styles.css" asp-append-version="true" />
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0"></script>
+
 </head>
 <body>
 
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">DataHopper2-PBL</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Data_PBL</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -56,9 +59,9 @@
         </main>
     </div>
 
-    <footer class="mb-3">
-        <div>
-            &copy; 2024 - PBLprojectMVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Sobre</a>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - Data_PBL - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
 
