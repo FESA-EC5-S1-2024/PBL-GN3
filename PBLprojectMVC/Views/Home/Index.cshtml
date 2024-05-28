@@ -1,3 +1,152 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    <canvas style="display: block; box-sizing: border-box;" id="myChart" width=auto height=auto <canvas>
+
+    <script>
+
+        window.myChart = undefined;
+
+        function RequestNewData() {
+            fetchDataAndUpdateChart();
+        }
+
+        function fetchDataAndUpdateChart() {
+            const apiUrl = '/Home/Request';
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.value) {
+                        updateChart(data.value);
+                    } else {
+                        console.error('Data format error: ', data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar dados da API:', error);
+                });
+        }
+
+        function updateChart(data) {
+
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const labels = data.map(item => item.recvTime);
+            const values = data.map(item => parseFloat(item.attrValue));
+
+            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(10, 255, 10, 0.5)');
+            gradient.addColorStop(1, 'rgba(10, 200, 10, 0.1)');
+
+            if (!window.myChart) {
+
+                window.myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Temperature',
+                            data: values,
+                            backgroundColor: gradient,
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 2,
+                            pointBackgroundColor: 'rgba(200, 0, 200, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(54, 162, 235, 1)',
+                            fill: true,
+                            tension: 0.8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Ultimos dados de Temperatura',
+                                font: {
+                                    size: 20
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `Temperature: ${context.parsed.y}°C`;
+                                    }
+                                }
+                            },
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            }
+                        },
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Time',
+                                    font: {
+                                        size: 14
+                                    }
+                                },
+                                type: 'time',
+                                time: {
+                                    unit: 'minute',
+                                    tooltipFormat: 'MMM D, h:mm:ss a'
+                                },
+                                ticks: {
+                                    autoSkip: true,
+                                    maxTicksLimit: 20
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Temperature (°C)',
+                                    font: {
+                                        size: 14
+                                    }
+                                },
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return value + '°C';
+                                    }
+                                }
+                            }
+                        },
+                        elements: {
+                            point: {
+                                radius: 5,
+                                hoverRadius: 8,
+                                hoverBorderWidth: 2
+                            },
+                            line: {
+                                borderWidth: 2,
+                                tension: 0.4
+                            }
+                        },
+                        animation: {
+                            duration: 1000,
+                            easing: 'easeInOutBounce'
+                        }
+                    }
+                });
+            } else {
+
+                window.myChart.data.labels = labels;
+                window.myChart.data.datasets[0].data = values;
+                window.myChart.update();
+
+            }
+        }
+
+        setInterval(fetchDataAndUpdateChart, 5000);
+
+        fetchDataAndUpdateChart();
+    </script>
+

@@ -50,43 +50,9 @@ html {
 
 body {
   margin-bottom: 60px;
-  background: #35B874;
 }
 
-footer {
-    margin: 10px;
-    padding: 10px;
-    border: 1px solid;
-    border-color: black;
-    border-radius: 10px;
-    background-color: #3D634F;
-    color: black;
-    width: calc(100% - 20px);
-    position: fixed;
-    bottom: 0;
-    box-sizing: border-box;
-    text-align: center;
-}
-
-.center-container{
-  display:flex;
-  justify-content: center;
-  padding: 5%;
-}
-
-.login-boxes{
-  padding: 5%;
-  border: 2px solid;
-  border-color: black;
-  border-radius: 10px;
-  background-color: #3D634F;
-  color: white;
-}
-
-.login-button{
-  background-color: #23332A;
-}
-
-.title{
-  text-align: center;
+canvas {
+            display: block;
+            margin: 0;
 }
