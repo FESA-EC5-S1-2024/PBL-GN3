@@ -9,39 +9,45 @@ static const float temperatures[] = {
     42.0, 44.0, 46.0, 48.0, 50.0, 52.0, 54.0, 56.0, 58.0, 60.0, 62.0, 64.0};
 static const int tableSize = sizeof(sensorValues) / sizeof(sensorValues[0]);
 
-static int readTemperature() { return analogRead(TEMPERATURE_PIN); }
+static int readTemperature() {
+    return analogRead(TEMPERATURE_PIN);
+}
 
 static float interpolate(int sensorValue) {
-  if (sensorValue <= sensorValues[0]) {
-    return temperatures[0];
-  }
-  if (sensorValue >= sensorValues[tableSize - 1]) {
-    return temperatures[tableSize - 1];
-  }
-
-  for (int i = 0; i < tableSize - 1; i++) {
-    if (sensorValue < sensorValues[i + 1]) {
-      float t = (sensorValue - sensorValues[i]) /
-                (float)(sensorValues[i + 1] - sensorValues[i]);
-      return temperatures[i] + t * (temperatures[i + 1] - temperatures[i]);
+    if (sensorValue <= sensorValues[0]) {
+        return temperatures[0];
     }
-  }
-  return temperatures[tableSize - 1];
+    if (sensorValue >= sensorValues[tableSize - 1]) {
+        return temperatures[tableSize - 1];
+    }
+
+    for (int i = 0; i < tableSize - 1; i++) {
+        if (sensorValue < sensorValues[i + 1]) {
+            float t = (sensorValue - sensorValues[i]) / (float)(sensorValues[i + 1] - sensorValues[i]);
+            return temperatures[i] + t * (temperatures[i + 1] - temperatures[i]);
+        }
+    }
+    return temperatures[tableSize - 1];
 }
 
 float highResolutionTemperature() {
-  int total = 0;
+    unsigned long total = 0;
+    unsigned long startTime = millis();
+    int sampleCount = 0;
 
-  for (int i = 0; i < SAMPLES; i++) {
-    total += readTemperature(); 
-    delay(100);
-  }
+    while (sampleCount < SAMPLES) {
+        if (millis() - startTime >= 50) {
+            total += readTemperature();
+            sampleCount++;
+            startTime = millis(); // Reinicia o tempo de início para a próxima amostra
+        }
+    }
 
-  return interpolate((float)total/SAMPLES);
+    return interpolate((float)total / SAMPLES);
 }
 
 float lowResolutionTemperature() {
-  return interpolate(readTemperature());
+    return interpolate(readTemperature());
 }
 
 
