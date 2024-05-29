@@ -2,12 +2,26 @@
 #include "../include/measurements.hpp"
 
 static const int sensorValues[] = {
-    541,  561,  639,  718,  794,  905,  983,  1003, 1111, 1200, 1236, 1344,
-    1390, 1466, 1572, 1605, 1719, 1760, 1833, 1934, 2016, 2066, 2131, 2231};
+    541,  561,  601,  628,  707,  743,  777,  798,  860,  888,  943,  976,
+    1008, 1044, 1076, 1123, 1152, 1194, 1198, 1235, 1270, 1312, 1384, 1422,
+    1462, 1493, 1507, 1555, 1600, 1646, 1677, 1718, 1747, 1793, 1834, 1871,
+    1905, 1947, 1982, 2005, 2055, 2089, 2119, 2164, 2199, 2231, 2283, 2337,
+    2353, 2389, 2433};
 static const float temperatures[] = {
-    18.5, 20.0, 22.0, 24.0, 26.0, 28.0, 30.0, 32.0, 34.0, 36.0, 38.0, 40.0,
-    42.0, 44.0, 46.0, 48.0, 50.0, 52.0, 54.0, 56.0, 58.0, 60.0, 62.0, 64.0};
+    18.5, 20.0, 21.0, 22.0, 23.0, 24.0, 25.0, 26.0, 27.0, 28.0, 29.0, 30.0,
+    31.0, 32.0, 33.0, 34.0, 35.0, 36.0, 37.0, 38.0, 39.0, 40.0, 41.0, 42.0,
+    43.0, 44.0, 45.0, 46.0, 47.0, 48.0, 49.0, 50.0, 51.0, 52.0, 53.0, 54.0,
+    55.0, 56.0, 57.0, 58.0, 59.0, 60.0, 61.0, 62.0, 63.0, 64.0, 65.0, 66.0,
+    67.0, 68.0, 69.0};
 static const int tableSize = sizeof(sensorValues) / sizeof(sensorValues[0]);
+
+// Coeficientes do filtro FIR (defina de acordo com suas necessidades)
+#define FIR_ORDER 5
+static const float firCoefficients[FIR_ORDER] = {0.2, 0.2, 0.2, 0.2, 0.2};
+
+// Buffer para armazenar as leituras passadas do sensor
+static int sensorBuffer[FIR_ORDER] = {0};
+static int bufferIndex = 0;
 
 static int readTemperature() {
     return analogRead(TEMPERATURE_PIN);
@@ -30,6 +44,21 @@ static float interpolate(int sensorValue) {
     return temperatures[tableSize - 1];
 }
 
+
+// Função de filtragem FIR
+static float applyFIRFilter(int newValue) {
+    sensorBuffer[bufferIndex] = newValue;
+    bufferIndex = (bufferIndex + 1) % FIR_ORDER;
+
+    float filteredValue = 0;
+    for (int i = 0; i < FIR_ORDER; i++) {
+        int index = (bufferIndex + i) % FIR_ORDER;
+        filteredValue += sensorBuffer[index] * firCoefficients[i];
+    }
+
+    return filteredValue;
+}
+
 float highResolutionTemperature() {
     unsigned long total = 0;
     unsigned long startTime = millis();
@@ -37,7 +66,9 @@ float highResolutionTemperature() {
 
     while (sampleCount < SAMPLES) {
         if (millis() - startTime >= 50) {
-            total += readTemperature();
+            int currentValue = readTemperature();
+            float filteredValue = applyFIRFilter(currentValue);
+            total += filteredValue;
             sampleCount++;
             startTime = millis(); // Reinicia o tempo de início para a próxima amostra
         }

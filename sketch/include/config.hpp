@@ -20,7 +20,7 @@
 #define topicPrefix ("temp003")
 
 #define TEMPERATURE_PIN 34
-#define SAMPLES 25
+#define SAMPLES 50
 extern WiFiClient espClient;
 extern PubSubClient MQTT;
 
