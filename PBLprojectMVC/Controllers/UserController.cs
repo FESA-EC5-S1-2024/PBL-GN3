@@ -9,18 +9,18 @@ namespace PBLprojectMVC.Controllers
         public UserController()
         {
             DAO = new UserDAO();
-            NovoUsuario = true;
+            NewUser = true;
         }
 
-        protected override void ValidaDados(UserViewModel model, string operacao)
+        protected override void ValidateData(UserViewModel model, string Operation)
         {
-            if (string.IsNullOrEmpty(model.Nome))
+            if (string.IsNullOrEmpty(model.Name))
                 ModelState.AddModelError("Name", "Preencha o nome.");
 
             if (string.IsNullOrEmpty(model.Email))
                 ModelState.AddModelError("Email", "Preencha o Email.");
 
-            if (string.IsNullOrEmpty(model.Senha))
+            if (string.IsNullOrEmpty(model.Password))
                 ModelState.AddModelError("Password", "Adicione uma senha.");
         }
     }

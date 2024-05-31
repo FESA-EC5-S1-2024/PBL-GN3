@@ -11,16 +11,16 @@ namespace PBLprojectMVC.Controllers
             DAO = new TemperatureDAO();
         }
 
-        protected override void ValidaDados(TemperatureViewModel model, string operacao)
+        protected override void ValidateData(TemperatureViewModel model, string operation)
         {
-            if (model.Instante == default(DateTime))
-                ModelState.AddModelError("Instante", "Preencha o instante.");
+            if (model.Time == default)
+                ModelState.AddModelError("Time", "Preencha o instante.");
 
-            if (model.Valor == default(float))
-                ModelState.AddModelError("Valor", "Preencha o valor da temperatura.");
+            if (model.Value == default)
+                ModelState.AddModelError("Value", "Preencha o valor da temperatura.");
 
-            if (model.DispositivoId == 0)
-                ModelState.AddModelError("DispositivoId", "Selecione um dispositivo.");
+            if (model.DeviceId <= 0)
+                ModelState.AddModelError("DeviceId", "Selecione um dispositivo.");
         }
 
     }

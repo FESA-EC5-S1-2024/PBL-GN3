@@ -11,13 +11,13 @@ namespace PBLprojectMVC.Controllers
             DAO = new DeviceDAO();
         }
 
-        protected override void ValidaDados(DeviceViewModel model, string operacao)
+        protected override void ValidateData(DeviceViewModel model, string operation)
         {
-            if (string.IsNullOrEmpty(model.Nome))
-                ModelState.AddModelError("Nome", "Preencha o nome.");
+            if (string.IsNullOrEmpty(model.Name))
+                ModelState.AddModelError("Name", "Preencha o nome.");
 
-            if (string.IsNullOrEmpty(model.Tipo))
-                ModelState.AddModelError("Tipo", "Preencha o tipo.");
+            if (string.IsNullOrEmpty(model.Type))
+                ModelState.AddModelError("Type", "Preencha o tipo.");
         }
 
     }

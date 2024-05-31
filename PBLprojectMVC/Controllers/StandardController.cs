@@ -32,60 +32,60 @@ namespace PBLprojectMVC.Controllers
             }
             else
             {
-                return new RedirectToActionResult("AcessoNegado", "Error", null);
+                return View("Error", new ErrorViewModel("Access denied."));
             }
         }
 
         public virtual IActionResult Create()
         {
-            if (HelperController.VerificaAdmin(HttpContext.Session) || NovoUsuario)
+            if (HelperController.VerificaAdmin(HttpContext.Session) || NewUser)
             {
                 try
                 {
-                    ViewBag.Operacao = "I";
+                    ViewBag.Operation = "I";
                     T model = Activator.CreateInstance<T>();
-                    PreencheDadosParaView("I", model);
-                    return View(NomeViewForm, model);
+                    FillDataForView("I", model);
+                    return View(NameViewForm, model);
                 }
-                catch (Exception erro)
+                catch (Exception error)
                 {
-                    return View("Error", new ErrorViewModel(erro.ToString()));
+                    return View("Error", new ErrorViewModel(error.ToString()));
                 }
             }
             else
             {
-                return new RedirectToActionResult("AcessoNegado", "Error", null);
+                return View("Error", new ErrorViewModel("Access denied."));
             }
         }
 
-        public virtual IActionResult Save(T model, string Operacao)
+        public virtual IActionResult Save(T model, string operation)
         {
-            bool Admin = HelperController.VerificaAdmin(HttpContext.Session);
-            if (Admin || NovoUsuario)
+            bool admin = HelperController.VerificaAdmin(HttpContext.Session);
+            if (admin || NewUser)
             {
                 try
                 {
-                    ValidaDados(model, Operacao);
+                    ValidateData(model, operation);
                     if (ModelState.IsValid == false)
                     {
-                        ViewBag.Operacao = Operacao;
-                        PreencheDadosParaView(Operacao, model);
-                        return View(NomeViewForm, model);
+                        ViewBag.Operation = operation;
+                        FillDataForView(operation, model);
+                        return View(NameViewForm, model);
                     }
                     else
                     {
-                        if (Operacao == "I")
+                        if (operation == "I")
                             DAO.Insert(model);
                         else
                             DAO.Update(model);
 
-                        if (NovoUsuario && !Admin)
+                        if (NewUser && !admin)
                         {
                             return RedirectToAction("Index", "Login");
                         }
                         else
                         {
-                            return RedirectToAction(NomeViewIndex);
+                            return RedirectToAction(NameViewIndex);
                         }
                     }
                 }
@@ -96,7 +96,7 @@ namespace PBLprojectMVC.Controllers
             }
             else
             {
-                return new RedirectToActionResult("AcessoNegado", "Error", null);
+                return View("Error", new ErrorViewModel("Access denied."));
             }
         }
 
@@ -106,24 +106,24 @@ namespace PBLprojectMVC.Controllers
             {
                 try
                 {
-                    ViewBag.Operacao = "A";
-                    var model = DAO.Consulta(id);
+                    ViewBag.Operation = "A";
+                    var model = DAO.Select(id);
                     if (model == null)
-                        return RedirectToAction(NomeViewIndex);
+                        return RedirectToAction(NameViewIndex);
                     else
                     {
-                        PreencheDadosParaView("A", model);
-                        return View(NomeViewForm, model);
+                        FillDataForView("A", model);
+                        return View(NameViewForm, model);
                     }
                 }
-                catch (Exception erro)
+                catch (Exception error)
                 {
-                    return View("Error", new ErrorViewModel(erro.ToString()));
+                    return View("Error", new ErrorViewModel(error.ToString()));
                 }
             }
             else
             {
-                return new RedirectToActionResult("AcessoNegado", "Error", null);
+                return View("Error", new ErrorViewModel("Access denied."));
             }
         }
 
@@ -134,24 +134,24 @@ namespace PBLprojectMVC.Controllers
                 try
                 {
                     DAO.Delete(id);
-                    return RedirectToAction(NomeViewIndex);
+                    return RedirectToAction(NameViewIndex);
                 }
-                catch (Exception erro)
+                catch (Exception error)
                 {
-                    return View("Error", new ErrorViewModel(erro.ToString()));
+                    return View("Error", new ErrorViewModel(error.ToString()));
                 }
             }
             else
             {
-                return new RedirectToActionResult("AcessoNegado", "Error", null);
+                return View("Error", new ErrorViewModel("Access denied."));
             }
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            if (ExigeAutenticacao && !HelperController.VerificaUserLogado(HttpContext.Session))
+            if (RequiresAuthentication && !HelperController.VerificaUserLogado(HttpContext.Session))
             {
-                if (NovoUsuario)
+                if (NewUser)
                 {
                     base.OnActionExecuting(context);
                 }
@@ -161,9 +161,9 @@ namespace PBLprojectMVC.Controllers
                 }
 
             }
-            else if (ExigeAdmin && !HelperController.VerificaAdmin(HttpContext.Session))
+            else if (RequiresAdmin && !HelperController.VerificaAdmin(HttpContext.Session))
             {
-                context.Result = new RedirectToActionResult("AcessoNegado", "Error", null);
+                context.Result = View("Error", new ErrorViewModel("Access denied."));
             }
             else
             {
