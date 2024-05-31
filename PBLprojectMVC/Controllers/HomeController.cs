@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Http;
 using PBLprojectMVC.Models;
 using System.Diagnostics;
 
@@ -15,6 +17,10 @@ namespace PBLprojectMVC.Controllers
 
         public IActionResult Index()
         {
+
+            ViewBag.UserLogin = HelperController.LoginSessionVerification(HttpContext.Session);
+            ViewBag.IsAdmin = HelperController.AdminSessitionVerification(HttpContext.Session);
+
             return View();
         }
 

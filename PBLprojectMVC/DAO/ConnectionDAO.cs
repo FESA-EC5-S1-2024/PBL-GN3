@@ -13,7 +13,8 @@ namespace PBLprojectMVC.DAO
             
             try
             {
-                strConn = File.ReadAllText(filePath); 
+                //strConn = File.ReadAllText(filePath);
+                 strConn = "";
             }
             catch (Exception ex)
             {

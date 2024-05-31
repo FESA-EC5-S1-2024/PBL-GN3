@@ -32,7 +32,16 @@
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link btn btn-success mx-1 nav-btn" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
+
+
+                            @if(ViewBag.UserLogin != true){
+                                <a class="nav-link btn btn-success mx-1 nav-btn" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
+                            }
+                            else
+                            {
+                                <a class="nav-link btn btn-success mx-1 nav-btn" asp-area="" asp-controller="Login" asp-action="Logout">Logout</a>
+                            }
+
                         </li>
                     </ul>
                 </div>
