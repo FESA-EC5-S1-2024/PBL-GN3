@@ -11,7 +11,7 @@ namespace PBLprojectMVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(UsuarioViewModel model)
+        public ActionResult Login(UserViewModel model)
         {
             //TODO ADICIONAR VALIDAÇÃO DE USUARIO
             //ModelState.AddModelError("", "Login inválido.");
@@ -39,7 +39,7 @@ namespace PBLprojectMVC.Controllers
         // POST: Conta/Registrar
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Registrar(UsuarioViewModel model)
+        public ActionResult Registrar(UserViewModel model)
         {
             if (ModelState.IsValid)
             {
