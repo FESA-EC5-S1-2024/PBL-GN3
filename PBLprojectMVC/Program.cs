@@ -40,7 +40,7 @@ namespace PBLprojectMVC
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Conta}/{action=Login}/{id?}");
+                pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
         }
