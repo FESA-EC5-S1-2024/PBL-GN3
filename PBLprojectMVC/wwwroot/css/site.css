@@ -64,3 +64,9 @@ footer {
     box-sizing: border-box;
     text-align: center;
 }
+
+.center-container{
+  display:flex;
+  justify-content: center;
+  padding: 5%;
+}
