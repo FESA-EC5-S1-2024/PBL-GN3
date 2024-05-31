@@ -5,12 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using PBLprojectMVC.DAO;
 using PBLprojectMVC.Models;
-//using PBLprojectMVC.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.WebEncoders.Testing;
 
-namespace hotel_management.Controllers
+namespace PBLprojectMVC.Controllers
 {
     public class LoginController : StandardController<UserViewModel>
     {
@@ -21,27 +20,55 @@ namespace hotel_management.Controllers
             return View("Error!");
         }
 
-        public IActionResult NovoRegistro(){
-            return View("Registro");
+        public IActionResult NewLogin(){
+            return View("Register");
         }
 
-        /*
-        public IActionResult Login(PersonViewModel model)
+        public IActionResult SaveLogin(UserViewModel model)
+        {
+
+            LoginDAO DAO = new LoginDAO();
+
+            model.Senha = HashHelper.ComputeSha256Hash(model.Senha);
+            model.Id = 0;
+            model.IsAdmin = false;
+
+            ValidateRegistry(model);
+
+            if(ModelState.IsValid == true){
+
+                DAO.Insert(model);
+                return RedirectToAction("Index", "Home");
+
+            }
+
+            return View("Register", model);
+
+        }
+
+        public void ValidateRegistry(UserViewModel model)
+        {
+
+            ModelState.Clear();
+
+            if(string.IsNullOrEmpty(model.Senha) || model.Senha.Length < 8)
+                ModelState.AddModelError("Senha", "The Password must be longer than 8 caracthers!!!");
+
+        }
+
+        public IActionResult Login(UserViewModel model)
         {
             
-            PersonsDAO DAO = new PersonsDAO();
-            EmployeesDAO employeesDAO = new EmployeesDAO();
+            LoginDAO DAO = new LoginDAO();
 
-            if(DAO.LoginExists(model.Username, HashHelper.ComputeSha256Hash(model.PasswordHash)))
+            if(DAO.LoginExists(model.Email, HashHelper.ComputeSha256Hash(model.Senha)))
             {
-                HttpContext.Session.SetString("UserLogin", "true");
+                HttpContext.Session.SetString("UserLogged", "true");
 
-                if((model.Username == AdminLogin.admin_login && model.PasswordHash == AdminLogin.admin_password) || employeesDAO.IsAdmin(model.Username, HashHelper.ComputeSha256Hash(model.PasswordHash)))
+                if(DAO.IsAdmin(model.Email, HashHelper.ComputeSha256Hash(model.Senha)))
                     HttpContext.Session.SetString("IsAdmin", "true");
-                else if(employeesDAO.IsEmployee(model.Username, HashHelper.ComputeSha256Hash(model.PasswordHash)))
-                    HttpContext.Session.SetString("IsEmployee", "true");
 
-                HttpContext.Session.SetInt32("ID", DAO.LoginExists(model.Username, HashHelper.ComputeSha256Hash(model.PasswordHash), true));
+                HttpContext.Session.SetInt32("ID", DAO.LoginExists(model.Email, HashHelper.ComputeSha256Hash(model.Senha), true));
 
                 return RedirectToAction("index", "Home");
             }
@@ -51,11 +78,11 @@ namespace hotel_management.Controllers
             } 
         }
     
-        public IActionResult LogOut()
+        public IActionResult Logout()
         {
             HttpContext.Session.Clear();
             return RedirectToAction("Index");
         }
-        */
+
     }
 }

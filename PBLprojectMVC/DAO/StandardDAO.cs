@@ -39,7 +39,7 @@ namespace PBLprojectMVC.DAO
         public virtual T? Get(int id)
         {
             var p = new SqlParameter[]{
-                new SqlParameter("id", id),
+                new SqlParameter("@Id", id),
             };
 
             var table = HelperDAO.ExecuteProcSelect("spGet_" + Table, p);

@@ -8,13 +8,13 @@ using Microsoft.Extensions.Logging;
 using PBLprojectMVC.Models;
 using PBLprojectMVC.DAO;
 
-namespace hotel_management.Controllers
+namespace PBLprojectMVC.Controllers
 {
     public class StandardController<T> : Controller where T : StandardViewModel
     {
         // Standard Controller for CRUD operations
-        protected bool NeedsAuthentication { get; set; } = true;
         protected StandardDAO<T> DAO { get; set; }
+        protected bool NeedsAuthentication { get; set; } = true;
 
         // Default view names
         protected string IndexViewName { get; set; } = "Index";
