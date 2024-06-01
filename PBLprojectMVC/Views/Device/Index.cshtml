@@ -40,6 +40,9 @@
                     <tr class="border-t border-gray-100">
                         <td class="py-2 px-4 text-left">@device.Name</td>
                         <td class="py-2 px-4 text-left">@device.Type</td>
+                        <td class="py-2 px-4 text-left">
+                            <img src="data:image/jpeg;base64,@device.ImageBase64" class="w-12 h-auto transition-transform transform cursor-pointer hover:scale-150" />
+                        </td>
                         @{
                             if (Context.Session.GetString("IsAdmin") == "true")
                             {
