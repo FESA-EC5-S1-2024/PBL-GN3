@@ -12,7 +12,7 @@ namespace PBLprojectMVC.DAO
 
             parameters.Add(new SqlParameter("Id", device.Id));
             parameters.Add(new SqlParameter("Name", device.Name));
-            parameters.Add(new SqlParameter("Tipo", device.Type));
+            parameters.Add(new SqlParameter("Type", device.Type));
 
             return parameters.ToArray();
         }
