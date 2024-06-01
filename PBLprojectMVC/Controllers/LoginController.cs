@@ -14,6 +14,10 @@ namespace PBLprojectMVC.Controllers
     public class LoginController : StandardController<UserViewModel>
     {
 
+        public LoginController(){
+            NeedsAuthentication = false;
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
@@ -27,13 +31,23 @@ namespace PBLprojectMVC.Controllers
         public IActionResult SaveLogin(UserViewModel model)
         {
 
+            ViewBag.TempData = "";
+
             LoginDAO DAO = new LoginDAO();
+
+            ValidateRegistry(model);
 
             model.Password = HashHelper.ComputeSha256Hash(model.Password);
             model.Id = 0;
             model.IsAdmin = false;
 
-            ValidateRegistry(model);
+            if(DAO.LoginExists(model.Email)){
+
+                ViewBag.TempData = "Este Login e Senha Ja estao sendo utilizados!!!";
+                model.Password = "";
+                return View("Register", model);
+
+            }
 
             if(ModelState.IsValid == true){
 
@@ -42,6 +56,7 @@ namespace PBLprojectMVC.Controllers
 
             }
 
+            model.Password = "";
             return View("Register", model);
 
         }
@@ -74,7 +89,7 @@ namespace PBLprojectMVC.Controllers
             }
             else
             {
-                ViewBag.TempData = "Email ou Password Invalida!!!";
+                ViewBag.TempData = "Email ou Senha Invalida!!!";
                 return View("Index");
             } 
         }

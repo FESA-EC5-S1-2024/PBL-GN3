@@ -17,19 +17,22 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        ViewBag.UserLogged = HelperController.LoginSessionVerification(HttpContext.Session);
+        ViewBag.IsAdmin = HelperController.AdminSessitionVerification(HttpContext.Session);
+    
         return View();
     }
 
-    public async Task<JsonResult> Request()
+    public async Task<JsonResult> Request(string lastN)
     {
-        var data = await Request_D();
+        var data = await Request_D(lastN);
         return Json(data);
     }
 
-    public async Task<JsonElement> Request_D()
+    public async Task<JsonElement> Request_D(string lastN)
     {
         var client = new HttpClient();
-        var request = new HttpRequestMessage(HttpMethod.Get, "http://146.235.34.235:8666/STH/v2/entities/urn:ngsi-ld:Temp:003/attrs/temperature?type=Temp&lastN=60");
+        var request = new HttpRequestMessage(HttpMethod.Get, "http://146.235.34.235:8666/STH/v2/entities/urn:ngsi-ld:Temp:003/attrs/temperature?type=Temp&lastN=" + lastN);
         request.Headers.Add("fiware-service", "smart");
         request.Headers.Add("fiware-servicepath", "/");
 

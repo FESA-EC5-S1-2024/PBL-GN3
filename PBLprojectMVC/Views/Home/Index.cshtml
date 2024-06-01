@@ -3,21 +3,20 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 
+    <input type="range" id="dataRange" min="1" max="100" value="20" style="width: 100%;">
     <canvas style="display: block; box-sizing: border-box;" id="myChart" width=auto height=auto <canvas>
 
     <script>
 
         window.myChart = undefined;
 
-        function RequestNewData() {
-            fetchDataAndUpdateChart();
-        }
+        document.getElementById('dataRange').onchange = function() {
+            fetchDataAndUpdateChart(this.value);
+        };
 
-        function fetchDataAndUpdateChart() {
-            const apiUrl = '/Home/Request';
+        function fetchDataAndUpdateChart(value) {
+            const apiUrl = '/Home/Request?lastN=' + value;
             fetch(apiUrl)
                 .then(response => response.json())
                 .then(data => {
@@ -111,7 +110,7 @@
                                         size: 14
                                     }
                                 },
-                                beginAtZero: true,
+                                beginAtZero: false,
                                 ticks: {
                                     callback: function(value) {
                                         return value + '°C';
@@ -132,7 +131,7 @@
                         },
                         animation: {
                             duration: 1000,
-                            easing: 'easeInOutBounce'
+                            easing: 'easeInOutSine'
                         }
                     }
                 });
@@ -145,8 +144,8 @@
             }
         }
 
-        setInterval(fetchDataAndUpdateChart, 5000);
+        setInterval(fetchDataAndUpdateChart(document.getElementById('dataRange').value), 5000);
 
-        fetchDataAndUpdateChart();
+        fetchDataAndUpdateChart(document.getElementById('dataRange').value);
     </script>
 

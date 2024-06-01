@@ -13,7 +13,7 @@ namespace PBLprojectMVC.DAO
     {
         protected override void SetTable()
         {
-            Table = "User";
+            Table = "Users";
         }
 
         protected override SqlParameter[] CreateParameters(UserViewModel model)
@@ -38,6 +38,16 @@ namespace PBLprojectMVC.DAO
             user.IsAdmin = (bool)row["IsAdmin"];
             
             return user;
+        }
+
+        public bool LoginExists(string email){
+
+            SqlParameter[] parameters = new SqlParameter[1];
+            parameters[0] = new SqlParameter("@Email", email);
+
+            string sql = "SELECT * FROM " + Table + " WHERE Email = @Email";
+
+            return HelperDAO.ExecuteSelect(sql, parameters).Rows.Count >= 1;
         }
         
         public bool LoginExists(string email, string password){
