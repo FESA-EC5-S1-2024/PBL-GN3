@@ -14,7 +14,7 @@ namespace PBLprojectMVC.DAO
             try
             {
                 //strConn = File.ReadAllText(filePath);
-                strConn = ""; 
+                strConn = "Data Source=146.235.34.235; Database=PBL; user id=sa; password=RogerServer3301"; 
             }
             catch (Exception ex)
             {

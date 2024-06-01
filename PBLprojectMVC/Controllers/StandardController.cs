@@ -20,15 +20,10 @@ namespace PBLprojectMVC.Controllers
         {
             if (HelperController.VerificaUserLogado(HttpContext.Session))
             {
-                try
-                {
-                    var list = DAO.GetAll();
-                    return View(NameViewIndex, list);
-                }
-                catch (Exception error)
-                {
-                    return View("Error", new ErrorViewModel(error.ToString()));
-                }
+                ViewBag.UserLogged = HelperController.LoginSessionVerification(HttpContext.Session);
+                ViewBag.IsAdmin = HelperController.AdminSessitionVerification(HttpContext.Session);
+
+                return View();
             }
             else
             {
@@ -149,7 +144,7 @@ namespace PBLprojectMVC.Controllers
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            if (RequiresAuthentication && !HelperController.VerificaUserLogado(HttpContext.Session))
+            if (NeedsAuthentication && HelperController.LoginSessionVerification(HttpContext.Session))
             {
                 if (NewUser)
                 {
