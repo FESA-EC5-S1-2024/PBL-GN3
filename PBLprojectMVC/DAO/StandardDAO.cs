@@ -45,8 +45,12 @@ namespace PBLprojectMVC.DAO
                 new SqlParameter("id", id),
                 new SqlParameter("Table", Table)
             };
-            var resultTable = HelperDAO.ExecuteProcSelect("spSelect", p);
-            if (resultTable.Rows.Count == 0)
+
+            var table = HelperDAO.ExecuteProcSelect("spGet_" + Table, p);
+
+            if (table.Rows.Count != 0)
+                return CreateModel(table.Rows[0]);
+            else
                 return null;
             else
                 return CreateModel(resultTable.Rows[0]);
@@ -60,8 +64,9 @@ namespace PBLprojectMVC.DAO
             };
             var resultTable = HelperDAO.ExecuteProcSelect(NameSpGetAll, p);
             List<T> list = new List<T>();
-            foreach (DataRow record in resultTable.Rows)
-                list.Add(CreateModel(record));
+            
+            foreach (DataRow row in table.Rows)
+                list.Add(CreateModel(row));
 
             return list;
         }

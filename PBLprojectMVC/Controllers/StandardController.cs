@@ -45,7 +45,7 @@ namespace PBLprojectMVC.Controllers
                     ViewBag.Operation = "I";
                     T model = Activator.CreateInstance<T>();
                     FillDataForView("I", model);
-                    return View(NameViewForm, model);
+                    return View(FormViewName, model);
                 }
                 catch (Exception error)
                 {
@@ -70,7 +70,7 @@ namespace PBLprojectMVC.Controllers
                     {
                         ViewBag.Operation = operation;
                         FillDataForView(operation, model);
-                        return View(NameViewForm, model);
+                        return View(FormViewName, model);
                     }
                     else
                     {
@@ -85,7 +85,7 @@ namespace PBLprojectMVC.Controllers
                         }
                         else
                         {
-                            return RedirectToAction(NameViewIndex);
+                            return RedirectToAction(IndexViewName);
                         }
                     }
                 }
@@ -107,13 +107,13 @@ namespace PBLprojectMVC.Controllers
                 try
                 {
                     ViewBag.Operation = "A";
-                    var model = DAO.Select(id);
+                    var model = DAO.Get(id);
                     if (model == null)
-                        return RedirectToAction(NameViewIndex);
+                        return RedirectToAction(IndexViewName);
                     else
                     {
                         FillDataForView("A", model);
-                        return View(NameViewForm, model);
+                        return View(FormViewName, model);
                     }
                 }
                 catch (Exception error)
@@ -134,7 +134,7 @@ namespace PBLprojectMVC.Controllers
                 try
                 {
                     DAO.Delete(id);
-                    return RedirectToAction(NameViewIndex);
+                    return RedirectToAction(IndexViewName);
                 }
                 catch (Exception error)
                 {

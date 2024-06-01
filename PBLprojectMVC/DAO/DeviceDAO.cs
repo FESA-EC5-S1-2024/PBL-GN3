@@ -6,16 +6,12 @@ namespace PBLprojectMVC.DAO
 {
     public class DeviceDAO : StandardDAO<DeviceViewModel>
     {
-        protected override SqlParameter[] CreateParameters(DeviceViewModel device, bool isInsert = false)
+        protected override SqlParameter[] CreateParameters(DeviceViewModel device)
         {
             List<SqlParameter> parameters = new List<SqlParameter>();
 
-            if (!isInsert)
-            {
-                parameters.Add(new SqlParameter("Id", device.Id));
-            }
-
-            parameters.Add(new SqlParameter("Nome", device.Name));
+            parameters.Add(new SqlParameter("Id", device.Id));
+            parameters.Add(new SqlParameter("Name", device.Name));
             parameters.Add(new SqlParameter("Tipo", device.Type));
 
             return parameters.ToArray();
@@ -33,7 +29,6 @@ namespace PBLprojectMVC.DAO
         protected override void SetTable()
         {
             Table = "Device";
-            NameSpGetAll = "spGetAll_Device";
         }
 
     }

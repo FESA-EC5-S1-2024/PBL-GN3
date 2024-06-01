@@ -15,13 +15,13 @@ namespace PBLprojectMVC.Controllers
         protected override void ValidateData(UserViewModel model, string Operation)
         {
             if (string.IsNullOrEmpty(model.Name))
-                ModelState.AddModelError("Name", "Preencha o nome.");
+                ModelState.AddModelError("Name", "Preencha o Name.");
 
             if (string.IsNullOrEmpty(model.Email))
                 ModelState.AddModelError("Email", "Preencha o Email.");
 
             if (string.IsNullOrEmpty(model.Password))
-                ModelState.AddModelError("Password", "Adicione uma senha.");
+                ModelState.AddModelError("Password", "Adicione uma Password.");
         }
     }
 }
