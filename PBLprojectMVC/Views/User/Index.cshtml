@@ -1,0 +1,88 @@
+@{
+    ViewData["Title"] = "Gerenciamento de Usuários";
+}
+
+<h2 class="display-4 mb-4">Usuários</h2>
+
+<div class="mb-4">
+    <input type="text" id="searchInput" placeholder="Buscar pelo nome..." onkeyup="searchUsers()" class="form-control">
+</div>
+
+<div class="table-responsive mb-4">
+    <table class="table table-bordered table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Email</th>
+                <th scope="col">IsAdmin</th>
+                <th scope="col">Ações</th>
+            </tr>
+        </thead>
+        <tbody id="usersTableBody">
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function deleteUser(id) {
+        if (confirm('Confirma a deleção do usuário?'))
+            location.href = '/User/Delete?id=' + id;
+    }
+
+    function editUser(id) {
+        location.href = '/User/Edit?id=' + id;
+    }
+
+    function updateAdminStatus(checkbox) {
+        var userId = checkbox.getAttribute('data-user-id');
+        var isAdmin = checkbox.checked;
+
+        $.ajax({
+            url: '/User/UpdateAdminStatus',
+            type: 'POST',
+            data: {
+                id: userId,
+                isAdmin: isAdmin,
+            },
+            success: function(response) {
+                console.log('Status updated successfully.');
+            },
+            error: function(xhr, status, error) {
+                console.error('Error updating status: ' + error);
+            }
+        });
+    }
+
+    function searchUsers() {
+        var searchQuery = document.getElementById('searchInput').value;
+        $.ajax({
+            url: '/User/SearchUsers',
+            type: 'GET',
+            data: { query: searchQuery },
+            success: function(data) {
+                var tbody = document.getElementById('usersTableBody');
+                tbody.innerHTML = '';
+                data.forEach(function(user) {
+                    var row = `
+                        <tr>
+                            <td>${user.name}</td>
+                            <td>${user.email}</td>
+                            <td>
+                                <input type="checkbox" data-user-id="${user.id}" onchange="updateAdminStatus(this)" ${user.isadmin ? 'checked' : ''}>
+                            </td>
+                            <td class="d-flex">
+                                <button class="btn btn-primary mr-2" onclick="editUser(${user.id})">Editar</button>
+                                <button class="btn btn-danger" onclick="deleteUser(${user.id})">Delete</button>
+                            </td>
+                        </tr>`;
+                    tbody.innerHTML += row;
+                });
+            },
+            error: function(error) {
+                console.error('Error fetching search results:', error);
+            }
+        });
+    }
+
+    searchUsers();
+</script>
