@@ -11,6 +11,19 @@ namespace PBLprojectMVC.Controllers
             DAO = new DeviceDAO();
         }
 
+        public override IActionResult Index()
+        {
+            try
+            {
+                var list = DAO.GetAll();
+                return View(IndexViewName, list);
+            }
+            catch (Exception error)
+            {
+                return View("Error", new ErrorViewModel(error.ToString()));
+            }
+        }
+
         protected override void ValidateData(DeviceViewModel model, string operation)
         {
             if (string.IsNullOrEmpty(model.Name))

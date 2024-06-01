@@ -1,0 +1,57 @@
+﻿@model List<DeviceViewModel>
+@{
+    ViewData["Title"] = "Dispositivos";
+}
+
+<h2 class="text-2xl font-bold text-center my-4">Dispositivos</h2>
+
+<div class="flex max-w-7xl justify-end -mt-12 mb-4">
+    @{
+        if (Context.Session.GetString("IsAdmin") == "true")
+        {
+            <a href="/book/Create" class="bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Registrar Dispositivo</a>
+        }
+        else
+        {
+            <a class="py-5"></a>
+        }
+    }
+</div>
+
+<div class="flex justify-center">
+    <div class="w-full max-w-6xl">
+        <table class="min-w-full bg-gray-700 text-white rounded-lg shadow">
+            <thead>
+                <tr>
+                    <th class="py-4 px-6 text-left">Nome</th>
+                    <th class="py-4 px-6 text-left">Tipo</th>
+                    <th class="py-4 px-6 text-left">Foto</th>
+                    @{
+                        if (Context.Session.GetString("IsAdmin") == "true")
+                        {
+                            <th class="py-4 px-6 text-left">Ações</th>
+                        }
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var device in Model)
+                {
+                    <tr class="border-t border-gray-100">
+                        <td class="py-2 px-4 text-left">@device.Name</td>
+                        <td class="py-2 px-4 text-left">@device.Type</td>
+                        @{
+                            if (Context.Session.GetString("IsAdmin") == "true")
+                            {
+                                <td class="py-2 px-4 text-left">
+                                    <a href="/Device/Edit?id=@device.Id" class="hover:text-gray-500">✏️</a>
+                                    <a href="javascript:deleteRecord('device', @device.Id)" class="ml-2 hover:text-gray-500">❌</a>
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
