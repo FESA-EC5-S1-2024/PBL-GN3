@@ -7,7 +7,7 @@
 
 <div class="center-container">
 
-    <form asp-action="Save" method="post" class="form-horizontal" style="width:50%">
+    <form asp-action="Save" method="post" class="form-horizontal" style="width:50%" enctype="multipart/form-data">
         <input type="hidden" name="operation" value="@ViewBag.Operation" />
         <input type="hidden" name="Id" value="@Model.Id" />
 
@@ -29,6 +29,15 @@
                 <div class="col-md-10">
                     <input asp-for="Type" class="form-control" />
                     <span asp-validation-for="Type" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="Image" class="block text-gray-700 text-sm font-bold mb-2">Foto</label>
+                <div class="col-md-10">
+                    <input type="file" name="Image" id="Image" onchange="displayImage()" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:hover:cursor-pointer file:border-0 file:text-sm file:font-semibold file:bg-gray-50 file:text-gray-700 hover:file:bg-gray-100" />
+                    <img id="imgPreview" src="data:image/jpeg;base64,@Model.ImageBase64" class="img-responsive mt-2 w-48 h-auto rounded" />
+                    <span asp-validation-for="Image" class="text-danger"></span>
                 </div>
             </div>
 

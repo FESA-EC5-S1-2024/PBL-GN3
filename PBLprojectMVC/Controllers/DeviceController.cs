@@ -32,6 +32,37 @@ namespace PBLprojectMVC.Controllers
 
             if (string.IsNullOrEmpty(model.Type))
                 ModelState.AddModelError("Type", "Preencha o tipo.");
+
+            // Image is required on Insert
+            if (model.Image == null && operation == "I")
+                ModelState.AddModelError("Image", "Escolha uma imagem.");
+            if (model.Image != null && model.Image.Length / 1024 / 1024 >= 2)
+                ModelState.AddModelError("Image", "Imagem limitada a 2 mb.");
+            if (ModelState.IsValid)
+            {
+                // Get saved Image on Update if not informed
+                if (operation == "A" && model.Image == null)
+                {
+                    DeviceViewModel device = DAO.Get(model.Id);
+                    model.ImageByte = device.ImageByte;
+                }
+                else
+                {
+                    model.ImageByte = ConvertImageToByte(model.Image);
+                }
+            }
+        }
+
+        public byte[] ConvertImageToByte(IFormFile file)
+        {
+            if (file != null)
+                using (var ms = new MemoryStream())
+                {
+                    file.CopyTo(ms);
+                    return ms.ToArray();
+                }
+            else
+                return null;
         }
 
     }
