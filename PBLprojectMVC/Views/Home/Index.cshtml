@@ -4,7 +4,7 @@
 
 <div class="text-center">
 
-    <input type="range" id="dataRange" min="1" max="100" value="20" style="width: 100%;">
+    <input type="range" id="dataRange" min="5" max="100" value="20" step="5" style="width: 100%;">
     <canvas style="display: block; box-sizing: border-box;" id="myChart" width=auto height=auto <canvas>
 
     <script>
@@ -38,8 +38,8 @@
             const values = data.map(item => parseFloat(item.attrValue));
 
             const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-            gradient.addColorStop(0, 'rgba(10, 255, 10, 0.5)');
-            gradient.addColorStop(1, 'rgba(10, 200, 10, 0.1)');
+            gradient.addColorStop(0, 'rgba(10, 200, 50, 0.8)');
+            gradient.addColorStop(1, 'rgba(50, 100, 10, 0.1)');
 
             if (!window.myChart) {
 
@@ -48,7 +48,7 @@
                     data: {
                         labels: labels,
                         datasets: [{
-                            label: 'Temperature',
+                            label: 'Temperatura',
                             data: values,
                             backgroundColor: gradient,
                             borderColor: 'rgba(54, 162, 235, 1)',
