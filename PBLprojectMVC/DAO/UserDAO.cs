@@ -6,15 +6,11 @@ namespace PBLprojectMVC.DAO
 {
     public class UserDAO : StandardDAO<UserViewModel>
     {
-        protected override SqlParameter[] CreateParameters(UserViewModel user, bool isInsert = false)
+        protected override SqlParameter[] CreateParameters(UserViewModel user)
         {
             List<SqlParameter> parameters = new List<SqlParameter>();
 
-            if (!isInsert)
-            {
-                parameters.Add(new SqlParameter("Id", user.Id));
-            }
-
+            parameters.Add(new SqlParameter("Id", user.Id));
             parameters.Add(new SqlParameter("Name", user.Name));
             parameters.Add(new SqlParameter("Email", user.Email));
             parameters.Add(new SqlParameter("Password", user.Password));
@@ -37,7 +33,6 @@ namespace PBLprojectMVC.DAO
         protected override void SetTable()
         {
             Table = "User";
-            NameSpGetAll = "spGetAll_User";
         }
 
         public UserViewModel SelectUser(string email)

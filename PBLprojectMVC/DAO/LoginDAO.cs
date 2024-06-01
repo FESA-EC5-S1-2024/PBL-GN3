@@ -11,31 +11,30 @@ namespace PBLprojectMVC.DAO
 {
     public class LoginDAO : StandardDAO<UserViewModel>
     {
-
-  		public LoginDAO()
+        protected override void SetTable()
         {
-            Table = "Users";
+            Table = "User";
         }
 
         protected override SqlParameter[] CreateParameters(UserViewModel model)
         {
             SqlParameter[] parameters = new SqlParameter[5];
             parameters[0] = new SqlParameter("@Id", model.Id);
-            parameters[1] = new SqlParameter("@Nome", model.Nome);
+            parameters[1] = new SqlParameter("@Name", model.Name);
             parameters[2] = new SqlParameter("@Email", model.Email);
-            parameters[3] = new SqlParameter("@Senha", model.Senha);
+            parameters[3] = new SqlParameter("@Password", model.Password);
             parameters[4] = new SqlParameter("@IsAdmin", model.IsAdmin);
             return parameters;
         }
 
-        protected override UserViewModel MountModel(DataRow row)
+        protected override UserViewModel CreateModel(DataRow row)
         {
             UserViewModel user = new UserViewModel();
 
             user.Id = (int)row["Id"];
-            user.Nome = row["Nome"].ToString();
+            user.Name = row["Name"].ToString();
             user.Email = row["Email"].ToString();
-            user.Senha = "";
+            user.Password = "";
             user.IsAdmin = (bool)row["IsAdmin"];
             
             return user;
@@ -45,9 +44,9 @@ namespace PBLprojectMVC.DAO
 
             SqlParameter[] parameters = new SqlParameter[2];
             parameters[0] = new SqlParameter("@Email", email);
-            parameters[1] = new SqlParameter("@Senha", password);
+            parameters[1] = new SqlParameter("@Password", password);
 
-            string sql = "SELECT * FROM " + Table + " WHERE Email = @Email AND Senha = @Senha";
+            string sql = "SELECT * FROM " + Table + " WHERE Email = @Email AND Password = @Password";
 
             return HelperDAO.ExecuteSelect(sql, parameters).Rows.Count >= 1;
         }
@@ -56,9 +55,9 @@ namespace PBLprojectMVC.DAO
 
             SqlParameter[] parameters = new SqlParameter[2];
             parameters[0] = new SqlParameter("@Email", email);
-            parameters[1] = new SqlParameter("@Senha", password);
+            parameters[1] = new SqlParameter("@Password", password);
 
-            string sql = "SELECT * FROM " + Table + " WHERE Email = @Email AND Senha = @Senha";
+            string sql = "SELECT * FROM " + Table + " WHERE Email = @Email AND Password = @Password";
 
             return (int)HelperDAO.ExecuteSelect(sql, parameters).Rows[0]["Id"];
         }
@@ -67,9 +66,9 @@ namespace PBLprojectMVC.DAO
 
             SqlParameter[] parameters = new SqlParameter[2];
             parameters[0] = new SqlParameter("@Email", email);
-            parameters[1] = new SqlParameter("@Senha", password);
+            parameters[1] = new SqlParameter("@Password", password);
 
-            string sql = "SELECT * FROM " + Table + "  WHERE IsAdmin = 1 AND Email = @Email AND Senha = @Senha";
+            string sql = "SELECT * FROM " + Table + "  WHERE IsAdmin = 1 AND Email = @Email AND Password = @Password";
 
             return HelperDAO.ExecuteSelect(sql, parameters).Rows.Count >= 1;
 

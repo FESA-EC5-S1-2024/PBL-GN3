@@ -6,15 +6,11 @@ namespace PBLprojectMVC.DAO
 {
     public class TemperatureDAO : StandardDAO<TemperatureViewModel>
     {
-        protected override SqlParameter[] CreateParameters(TemperatureViewModel temperature, bool isInsert = false)
+        protected override SqlParameter[] CreateParameters(TemperatureViewModel temperature)
         {
             List<SqlParameter> parameters = new List<SqlParameter>();
 
-            if (!isInsert)
-            {
-                parameters.Add(new SqlParameter("Id", temperature.Id));
-            }
-
+            parameters.Add(new SqlParameter("Id", temperature.Id));
             parameters.Add(new SqlParameter("Time", temperature.Time));
             parameters.Add(new SqlParameter("Value", temperature.Value));
             parameters.Add(new SqlParameter("DeviceId", temperature.DeviceId));
@@ -35,7 +31,6 @@ namespace PBLprojectMVC.DAO
         protected override void SetTable()
         {
             Table = "Temperature";
-            NameSpGetAll = "spListagem_GetAll";
         }
 
     }

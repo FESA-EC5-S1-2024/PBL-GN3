@@ -29,7 +29,7 @@ namespace PBLprojectMVC.Controllers
 
             LoginDAO DAO = new LoginDAO();
 
-            model.Senha = HashHelper.ComputeSha256Hash(model.Senha);
+            model.Password = HashHelper.ComputeSha256Hash(model.Password);
             model.Id = 0;
             model.IsAdmin = false;
 
@@ -51,8 +51,8 @@ namespace PBLprojectMVC.Controllers
 
             ModelState.Clear();
 
-            if(string.IsNullOrEmpty(model.Senha) || model.Senha.Length < 8)
-                ModelState.AddModelError("Senha", "The Password must be longer than 8 caracthers!!!");
+            if(string.IsNullOrEmpty(model.Password) || model.Password.Length < 8)
+                ModelState.AddModelError("Password", "The Password must be longer than 8 caracthers!!!");
 
         }
 
@@ -61,20 +61,20 @@ namespace PBLprojectMVC.Controllers
             
             LoginDAO DAO = new LoginDAO();
 
-            if(DAO.LoginExists(model.Email, HashHelper.ComputeSha256Hash(model.Senha)))
+            if(DAO.LoginExists(model.Email, HashHelper.ComputeSha256Hash(model.Password)))
             {
                 HttpContext.Session.SetString("UserLogged", "true");
 
-                if(DAO.IsAdmin(model.Email, HashHelper.ComputeSha256Hash(model.Senha)))
+                if(DAO.IsAdmin(model.Email, HashHelper.ComputeSha256Hash(model.Password)))
                     HttpContext.Session.SetString("IsAdmin", "true");
 
-                HttpContext.Session.SetInt32("ID", DAO.LoginExists(model.Email, HashHelper.ComputeSha256Hash(model.Senha), true));
+                HttpContext.Session.SetInt32("ID", DAO.LoginExists(model.Email, HashHelper.ComputeSha256Hash(model.Password), true));
 
                 return RedirectToAction("index", "Home");
             }
             else
             {
-                ViewBag.TempData = "Email ou Senha Invalida!!!";
+                ViewBag.TempData = "Email ou Password Invalida!!!";
                 return View("Index");
             } 
         }
