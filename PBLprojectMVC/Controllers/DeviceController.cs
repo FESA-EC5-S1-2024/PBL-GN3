@@ -26,8 +26,9 @@ namespace PBLprojectMVC.Controllers
 
         protected override void ValidateData(DeviceViewModel model, string operation)
         {
+            ModelState.Clear();
             if (string.IsNullOrEmpty(model.Name))
-                ModelState.AddModelError("Name", "Preencha o Name.");
+                ModelState.AddModelError("Name", "Preencha o nome do dispositivo.");
 
             if (string.IsNullOrEmpty(model.Type))
                 ModelState.AddModelError("Type", "Preencha o tipo.");
