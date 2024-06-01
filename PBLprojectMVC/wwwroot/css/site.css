@@ -9,7 +9,7 @@ html {
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #408D65;
 }
 
 nav{
@@ -17,7 +17,7 @@ nav{
   border-width: 1px;
   border-style: solid;
   border-radius: 10px;
-  background-color: #1F5E34
+  background-color: #3D634F
 }
 
 .navbar-brand{
@@ -32,11 +32,14 @@ nav{
 
 .nav-btn {
   transition: transform 0.3s ease-in-out;
-  color: black;
+  color: white;
+  background-color: #23332A;
+  border-color: black;
 }
 
 .nav-btn:hover {
     transform: scale(1.05);
+    background-color: #408D65;
     color: black;
 }
 
@@ -47,7 +50,7 @@ html {
 
 body {
   margin-bottom: 60px;
-  background: #00b33c;
+  background: #35B874;
 }
 
 footer {
@@ -56,8 +59,8 @@ footer {
     border: 1px solid;
     border-color: black;
     border-radius: 10px;
-    background-color: #1F5E34;
-    color: white;
+    background-color: #3D634F;
+    color: black;
     width: calc(100% - 20px);
     position: fixed;
     bottom: 0;
@@ -76,8 +79,12 @@ footer {
   border: 2px solid;
   border-color: black;
   border-radius: 10px;
-  background-color: #1F5E34;
+  background-color: #3D634F;
   color: white;
+}
+
+.login-button{
+  background-color: #23332A;
 }
 
 .title{

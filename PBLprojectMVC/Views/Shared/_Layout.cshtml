@@ -7,10 +7,12 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/PBLprojectMVC.styles.css" asp-append-version="true" />
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
-    <header style="background: #00b33c">
+    <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">DataHopper2-PBL</a>
@@ -33,9 +35,8 @@
                     <ul class="navbar-nav">
                         <li class="nav-item">
 
-
                             @if(ViewBag.UserLogin != true){
-                                <a class="nav-link btn btn-success mx-1 nav-btn" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
+                                <a class="nav-link btn btn-success mx-1 nav-btn login-button" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
                             }
                             else
                             {

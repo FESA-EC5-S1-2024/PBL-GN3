@@ -41,8 +41,20 @@
 
 </div>
 
+@if (ViewBag.TempData != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Falha de Login',
+            text: '@ViewBag.TempData'
+        });
+    </script>
+}
+
 @section Scripts {
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 }
+
