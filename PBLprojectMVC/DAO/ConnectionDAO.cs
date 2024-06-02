@@ -1,7 +1,9 @@
 using System;
 using System.IO;
 using System.Data.SqlClient;
-using System.Text.Json;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using PBLprojectMVC.Utils;
 
 namespace PBLprojectMVC.DAO
 {
@@ -10,17 +12,7 @@ namespace PBLprojectMVC.DAO
         public static SqlConnection GetConnection()
         {
             string filePath = "config.json"; 
-            string strConn;
-            
-            try
-            {
-                //strConn = File.ReadAllText(filePath);
-                strConn = "";
-            }
-            catch (Exception ex)
-            {
-                throw new ApplicationException("Could not read the connection string from the file.", ex);
-            }
+            string strConn = UtilsParams.Conn();
 
             SqlConnection conn;
             try

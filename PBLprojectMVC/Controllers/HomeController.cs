@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using System.Text.Json;
+using Newtonsoft.Json.Linq;
 using PBLprojectMVC.Models;
+using PBLprojectMVC.Utils;
 
 namespace PBLprojectMVC.Controllers;
 
@@ -31,8 +33,11 @@ public class HomeController : Controller
 
     public async Task<JsonElement> Request_D(string lastN)
     {
+        string port = "8666";
+        string host = UtilsParams.Host();
+
         var client = new HttpClient();
-        var request = new HttpRequestMessage(HttpMethod.Get, "http://146.235.34.235:8666/STH/v2/entities/urn:ngsi-ld:Temp:003/attrs/temperature?type=Temp&lastN=" + lastN);
+        var request = new HttpRequestMessage(HttpMethod.Get, "http://" + host + ":" + port + "/STH/v2/entities/urn:ngsi-ld:Temp:003/attrs/temperature?type=Temp&lastN=" + lastN);
         request.Headers.Add("fiware-service", "smart");
         request.Headers.Add("fiware-servicepath", "/");
 
