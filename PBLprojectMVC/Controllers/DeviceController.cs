@@ -15,6 +15,10 @@ namespace PBLprojectMVC.Controllers
 
         public override IActionResult Index()
         {
+
+            ViewBag.UserLogged = HelperController.LoginSessionVerification(HttpContext.Session);
+            ViewBag.IsAdmin = HelperController.AdminSessitionVerification(HttpContext.Session);
+            
             try
             {
                 var list = DAO.GetAll();

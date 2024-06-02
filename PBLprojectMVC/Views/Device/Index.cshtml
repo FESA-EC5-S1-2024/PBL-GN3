@@ -3,33 +3,39 @@
     ViewData["Title"] = "Dispositivos";
 }
 
-<h2 class="text-2xl font-bold text-center my-4">Dispositivos</h2>
+<div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+    <div class="d-sm-inline-flex">
+        <h2 class="title" style="font-weight: bold;">Dispositivos</h2>
 
-<div class="flex max-w-7xl justify-end -mt-12 mb-4">
-    @{
-        if (Context.Session.GetString("IsAdmin") == "true")
-        {
-            <a href="/Device/Create" class="bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Registrar Dispositivo</a>
-        }
-        else
-        {
-            <a class="py-5"></a>
-        }
-    }
+        <div class="flex max-w-7xl justify-end">
+            @{
+                if (Context.Session.GetString("IsAdmin") == "true")
+                {
+                    <button onclick="createDevice()" class="btn btn-success bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Registrar Dispositivo</button>
+                }
+                else
+                {
+                    <button onclick="createDevice()" class="btn btn-success bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" disabled>Registrar Dispositivo</button>
+                }
+            }
+        </div>
+    </div>
 </div>
 
-<div class="flex justify-center">
+<hr>
+
+<div class="center-container pretty-boxes">
     <div class="w-full max-w-6xl">
-        <table class="min-w-full bg-gray-700 text-white rounded-lg shadow">
+        <table class="min-w-full bg-gray-700 text-white rounded-lg table-bordered shadow">
             <thead>
                 <tr>
-                    <th class="py-4 px-6 text-left">Nome</th>
-                    <th class="py-4 px-6 text-left">Tipo</th>
-                    <th class="py-4 px-6 text-left">Foto</th>
+                    <th class="py-4 px-6">Nome</th>
+                    <th class="py-4 px-6">Tipo</th>
+                    <th class="py-4 px-6">Foto</th>
                     @{
                         if (Context.Session.GetString("IsAdmin") == "true")
                         {
-                            <th class="py-4 px-6 text-left">Ações</th>
+                            <th class="py-4 px-6">Ações</th>
                         }
                     }
                 </tr>
@@ -38,17 +44,24 @@
                 @foreach (var device in Model)
                 {
                     <tr class="border-t border-gray-100">
-                        <td class="py-2 px-4 text-left">@device.Name</td>
-                        <td class="py-2 px-4 text-left">@device.Type</td>
-                        <td class="py-2 px-4 text-left">
+                        <td class="py-2 px-4">@device.Name</td>
+                        <td class="py-2 px-4">@device.Type</td>
+                        <td class="py-2 px-4">
                             <img src="data:image/jpeg;base64,@device.ImageBase64" class="w-12 h-auto transition-transform transform cursor-pointer hover:scale-150" />
                         </td>
                         @{
                             if (Context.Session.GetString("IsAdmin") == "true")
                             {
-                                <td class="py-2 px-4 text-left">
-                                    <a href="/Device/Edit?id=@device.Id" class="hover:text-gray-500">✏️</a>
-                                    <a href="javascript:deleteRecord('device', @device.Id)" class="ml-2 hover:text-gray-500">❌</a>
+                                <td class="py-2 px-4">
+                                    <button onclick="editDevice(@device.Id)" class="btn btn-primary hover:text-gray-500">Editar ✏️</button>
+                                    <button onclick="deleteDevice(@device.Id)" class="btn btn-danger ml-2 hover:text-gray-500">Deletar ❌</button>
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="py-2 px-4">
+                                    <button onclick="editDevice(@device.Id)" class="btn btn-primary hover:text-gray-500" disabled>Editar ✏️</button>
+                                    <button onclick="deleteDevice(@device.Id)" class="btn btn-danger ml-2 hover:text-gray-500" disabled>Deletar ❌</button>
                                 </td>
                             }
                         }
@@ -58,3 +71,19 @@
         </table>
     </div>
 </div>
+
+<script>
+
+function createDevice(){
+    location.href = '/Device/Create';
+}
+
+function editDevice(id){
+    location.href = '/Device/Edit?id=' + id;
+}
+
+funciton deleteDevice(id){
+    location.href = '/Device/Delete?id=' + id;
+}
+
+</script>
