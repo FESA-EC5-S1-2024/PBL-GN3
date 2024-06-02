@@ -38,6 +38,20 @@
                 });
         }
 
+        function createGradient(ctx, values) {
+            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+
+            const stop0 = 0.4;
+            const stop1 = 0.8;
+            const stop2 = 1;
+
+            gradient.addColorStop(stop2, 'rgba(0, 0, 255, 0.6)'); // blue
+            gradient.addColorStop(stop1, 'rgba(255, 165, 0, 0.5)'); // orange
+            gradient.addColorStop(stop0, 'rgba(255, 0, 0, 0.7)'); // red
+
+            return gradient;
+        }
+
         function updateChart(data) {
 
             const ctx = document.getElementById('myChart').getContext('2d');
@@ -60,7 +74,8 @@
                         datasets: [{
                             label: 'Temperatura',
                             data: values,
-                            backgroundColor: gradient,
+                            //backgroundColor: gradient,
+                            backgroundColor: createGradient(ctx, values),
                             borderColor: 'rgba(54, 162, 235, 1)',
                             borderWidth: 2,
                             pointBackgroundColor: 'rgba(200, 0, 200, 1)',
@@ -76,7 +91,7 @@
                         plugins: {
                             title: {
                                 display: true,
-                                text: 'Ultimos dados de Temperatura coletados',
+                                text: 'Últimos dados de Temperatura coletados',
                                 font: {
                                     size: 25
                                 }

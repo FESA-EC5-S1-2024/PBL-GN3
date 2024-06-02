@@ -53,12 +53,12 @@ function applyAdvancedQueryDevice() {
 function applyAdvancedQueryTemperature() {
     var deviceName = $("#deviceName").val();
     var hLimit = $("#hLimit").val();
-    var offSet = $("#offSet").val();
+    var hOffset = $("#offSet").val();
     var dateFrom = $("#dateFrom").val();
     var dateTo = $("#dateTo").val();
     $.ajax({
         url: "/temperature/GetTemperaturePartial",
-        data: { deviceName: deviceName, hLimit: hLimit, offSet: offSet, dateFrom: dateFrom, dateTo: dateTo },
+        data: { deviceName: deviceName, hLimit: hLimit, hOffset: hOffset, dateFrom: dateFrom, dateTo: dateTo },
         success: function (data) {
             if (data.error != undefined) {
                 alert(data.msg);

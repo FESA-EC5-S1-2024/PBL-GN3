@@ -1,0 +1,197 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+
+    <div class="pretty-boxes flex flex-wrap gap-4">
+        <div class="w-full lg:w-auto flex-1">
+            <label for="dateFrom" class="block text-gray-700 font-bold mb-2">Período Inicial</label>
+            <input type="date" id="dateFrom1" class="form-control shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+        </div>
+        <div class="w-full lg:w-auto flex-1">
+            <label for="dateTo" class="block text-gray-700 font-bold mb-2">Período Final</label>
+            <input type="date" id="dateTo1" class="form-control shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+        </div>
+
+        <div class="w-full lg:w-auto flex items-end">
+            <input type="button" id="btnFilter1" class="btn btn-success hover:bg-gray-800 text-white font-bold py-1 px-4 rounded hover:cursor-pointer focus:outline-none focus:shadow-outline" style="margin-top: 10px" value="Aplicar" onclick="fetchDataAndUpdateChart(document.getElementById('dataRange1').value)" />
+        </div>
+    </div>
+
+    <div class="center-container" style="padding: 0%">
+        <h2 class="pretty-boxes title" id="valuesToShow1" style="margin: 10px">Valores Mostrados: </h2>
+        <h2 class="pretty-boxes" id="minValue1" style="margin: 10px">Valor Mínimo: </h2>
+        <h2 class="pretty-boxes" id="maxValue1" style="margin: 10px">Valor Máximo: </h2>
+    </div>
+    <input type="range" id="dataRange1" min="5" max="100" value="20" step="5" class="slider">
+    <canvas style="display: block; box-sizing: border-box;" id="myChart" width=auto height=125% <canvas>
+
+    <script>
+
+window.myChart = undefined;
+
+document.getElementById('dataRange1').onchange = function () {
+    fetchDataAndUpdateChart(this.value);
+};
+
+function fetchDataAndUpdateChart(value) {
+    if (value == 0)
+        value = document.getElementById('dataRange1').value;
+    document.getElementById('valuesToShow1').innerText = 'Valores Mostrados: ' + document.getElementById('dataRange1').value;
+
+    var dateFrom = $("#dateFrom1").val();
+    var dateTo = $("#dateTo1").val();
+
+    const apiUrl = `/Temperature/Request?lastN=${value}&dateFrom=${dateFrom}&dateTo=${dateTo}`;
+
+    $.ajax({
+        url: apiUrl,
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            if (data && data.value) {
+                updateChart(data.value);
+            } else {
+                console.error('Data format error: ', data);
+            }
+        },
+        error: function(error) {
+            console.error('Erro ao buscar dados da API:', error);
+        }
+    });
+}
+
+function createGradient(ctx, values) {
+            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+
+            const stop0 = 0.4;
+            const stop1 = 0.8;
+            const stop2 = 1;
+
+            gradient.addColorStop(stop2, 'rgba(0, 0, 255, 0.6)'); // blue
+            gradient.addColorStop(stop1, 'rgba(255, 165, 0, 0.5)'); // orange
+            gradient.addColorStop(stop0, 'rgba(255, 0, 0, 0.7)'); // red
+
+            return gradient;
+        }
+
+function updateChart(data) {
+
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const labels = data.map(item => item.recvTime);
+    const values = data.map(item => parseFloat(item.attrValue));
+
+    document.getElementById('minValue1').innerText = 'Valor Mínimo: ' + Math.min(...values);
+    document.getElementById('maxValue1').innerText = 'Valor Máximo: ' + Math.max(...values);
+
+    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, 'rgba(10, 200, 50, 0.8)');
+    gradient.addColorStop(1, 'rgba(50, 100, 10, 0.1)');
+
+    if (!window.myChart) {
+
+        window.myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Temperatura',
+                    data: values,
+                    //backgroundColor: gradient,
+                    backgroundColor: createGradient(ctx, values),
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2,
+                    pointBackgroundColor: 'rgba(200, 0, 200, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(54, 162, 235, 1)',
+                    fill: true,
+                    tension: 0.8
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Dados de Temperatura',
+                        font: {
+                            size: 25
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return `Temperature: ${context.parsed.y}°C`;
+                            }
+                        }
+                    },
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Time',
+                            font: {
+                                size: 14
+                            }
+                        },
+                        type: 'time',
+                        time: {
+                            unit: 'minute',
+                            tooltipFormat: 'MMM D, h:mm:ss a'
+                        },
+                        ticks: {
+                            autoSkip: true,
+                            maxTicksLimit: 20,
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Temperature (°C)',
+                            font: {
+                                size: 14
+                            }
+                        },
+                        beginAtZero: false,
+                        ticks: {
+                            callback: function (value) {
+                                return value + '°C';
+                            }
+                        }
+                    }
+                },
+                elements: {
+                    point: {
+                        radius: 5,
+                        hoverRadius: 8,
+                        hoverBorderWidth: 2
+                    },
+                    line: {
+                        borderWidth: 2,
+                        tension: 0.4
+                    }
+                },
+                animation: {
+                    duration: 1000,
+                    easing: 'easeInOutSine'
+                }
+            }
+        });
+    } else {
+
+        window.myChart.data.labels = labels;
+        window.myChart.data.datasets[0].data = values;
+        window.myChart.update();
+
+    }
+}
+
+fetchDataAndUpdateChart(document.getElementById('dataRange1').value)
+
+</script>
