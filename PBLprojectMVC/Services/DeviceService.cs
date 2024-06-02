@@ -1,17 +1,20 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
+using PBLprojectMVC.Models;
 using System.Net.Http.Headers;
 using System.Text;
 
 public class DeviceService
 {
     private readonly HttpClient _httpClient;
+    private readonly string host = "your_host";
 
     public DeviceService()
     {
         _httpClient = new HttpClient();
     }
 
-    public async Task<HttpResponseMessage> RegisterDeviceAsync(string host, int port, string deviceId, string entityName)
+    public async Task<HttpResponseMessage> RegisterDeviceAsync(int port, string deviceId, string entityName)
     {
         var url = $"http://{host}:{port}/iot/devices";
         var payload = new
@@ -45,7 +48,7 @@ public class DeviceService
         return response;
     }
 
-    public async Task<HttpResponseMessage> DeleteDeviceAsync(string host, int port, string deviceId)
+    public async Task<HttpResponseMessage> DeleteDeviceAsync(int port, string deviceId)
     {
         var url = $"http://{host}:{port}/iot/devices/{deviceId}";
 
@@ -57,5 +60,42 @@ public class DeviceService
         var response = await _httpClient.SendAsync(request);
 
         return response;
+    }
+
+    public async Task<List<DeviceViewModel>> GetDevicesList(int port)
+    {
+        var url = $"http://{host}:{port}/iot/devices";
+        _httpClient.DefaultRequestHeaders.Add("fiware-service", "smart");
+        _httpClient.DefaultRequestHeaders.Add("fiware-servicepath", "/");
+
+        HttpResponseMessage response = await _httpClient.GetAsync(url);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new HttpRequestException($"Error fetching devices: {response.StatusCode} - {response.ReasonPhrase}");
+        }
+
+        string jsonResponse = await response.Content.ReadAsStringAsync();
+        var deviceResponse = JsonConvert.DeserializeObject<DeviceApiResponse>(jsonResponse);
+
+        return deviceResponse.Devices.Select(device => new DeviceViewModel
+        {
+            Name = device.device_id,
+            Entity = device.entity_name,
+            Type = device.entity_type,
+            Transport = device.transport
+        }).ToList();
+    }
+
+    public class DeviceApiResponse
+    {
+        public int Count { get; set; }
+        public List<Device> Devices { get; set; }
+    }
+    public class Device
+    {
+        public string device_id { get; set; }
+        public string entity_name { get; set; }
+        public string entity_type { get; set; }
+        public string transport { get; set; }
     }
 }

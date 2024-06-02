@@ -1,0 +1,27 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Consulta de Dispositivos";
+}
+<fieldset id="areaFilter" class="form-group bg-gray-200 p-4 rounded-lg shadow-md">
+    <p class="text-xl font-bold mb-4">Consulta Avançada de Dispositivos</p>
+    <div class="flex flex-wrap gap-4">
+        <div class="w-full lg:w-auto flex-1">
+            <label for="name" class="block text-gray-700 font-bold mb-2">Nome</label>
+            <input type="text" id="name" class="form-control shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+        </div>
+        <div class="w-full lg:w-auto flex-1">
+            <label for="type" class="block text-gray-700 font-bold mb-2">Tipo</label>
+            <input type="text" id="type" class="form-control shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+        </div>
+        <div class="w-full lg:w-auto flex-1">
+            <label for="transport" class="block text-gray-700 font-bold mb-2">Método de Transporte</label>
+            <input type="text" id="transport" class="form-control shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+        </div>
+        <div class="w-full lg:w-auto flex items-end">
+            <input type="button" id="btnFilter" class="bg-gray-700 hover:bg-gray-800 text-white font-bold py-1 px-4 rounded hover:cursor-pointer focus:outline-none focus:shadow-outline" value="Aplicar" onclick="applyAdvancedQueryDevice()" />
+        </div>
+    </div>
+</fieldset>
+<div id="queryResult" class="table-responsive mt-4">
+    <!-- Query results here -->
+</div>

@@ -1,6 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using PBLprojectMVC.DAO;
 using PBLprojectMVC.Models;
+using System.Net.Http;
+using System.Security.Cryptography.Xml;
+using System.Xml.Linq;
 
 namespace PBLprojectMVC.Controllers
 {
@@ -94,12 +99,11 @@ namespace PBLprojectMVC.Controllers
 
         public async Task<string> RegisterDevice(string deviceName)
         {
-            string host = "your_host";
             int port = 4041;                // IoT-Agent MQTT Port
             string deviceId = deviceName;
             string entityName = "urn:ngsi-ld:" + GetEntityName(deviceName); //URN format
 
-            var response = await deviceService.RegisterDeviceAsync(host, port, deviceId, entityName);
+            var response = await deviceService.RegisterDeviceAsync(port, deviceId, entityName);
             
             if (response.IsSuccessStatusCode)
             {
@@ -129,10 +133,9 @@ namespace PBLprojectMVC.Controllers
 
         public async Task<string> DeleteDevice(string deviceId)
         {
-            string host = "your_host";
             int port = 4041;    // IoT-Agent MQTT Port
 
-            var response = await deviceService.DeleteDeviceAsync(host, port, deviceId);
+            var response = await deviceService.DeleteDeviceAsync(port, deviceId);
 
             if (response.IsSuccessStatusCode)
             {
@@ -147,6 +150,46 @@ namespace PBLprojectMVC.Controllers
             }
 
             return ViewBag.Message;
+        }
+
+        public async Task<ActionResult> GetDevicesPartial(string name, string type, string transport)
+        {
+            try
+            {
+                int port = 4041;    // IoT-Agent MQTT Port
+                List<DeviceViewModel> devices = await deviceService.GetDevicesList(port);
+                // Filter devices
+                List<DeviceViewModel> filteredDevices = devices;
+                if (!string.IsNullOrEmpty(name))
+                {
+                    filteredDevices = filteredDevices.Where(d => d.Name == name).ToList();
+                }
+                if (!string.IsNullOrEmpty(type))
+                {
+                    filteredDevices = filteredDevices.Where(d => d.Type == type).ToList();
+                }
+                if (!string.IsNullOrEmpty(transport))
+                {
+                    filteredDevices = filteredDevices.Where(d => d.Transport == transport).ToList();
+                }
+                return PartialView("pvGridDevices", filteredDevices);
+            }
+            catch (Exception error)
+            {
+                return Json(new { error = true, msg = error.Message });
+            }
+        }
+
+        public IActionResult AdvancedQuery()
+        {
+            try
+            {
+                return View("AdvancedQuery");
+            }
+            catch (Exception error)
+            {
+                return View("Error", new ErrorViewModel(error.Message));
+            }
         }
     }
 }

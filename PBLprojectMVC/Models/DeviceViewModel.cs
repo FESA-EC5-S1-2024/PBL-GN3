@@ -16,5 +16,7 @@
                     return string.Empty;
             }
         }
+        public string Entity { get; set; }
+        public string Transport { get; set; }
     }
 }

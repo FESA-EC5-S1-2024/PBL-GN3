@@ -28,3 +28,24 @@ function displayImage() {
         document.getElementById("imgPreview").src = oFREvent.target.result;
     };
 }
+
+function applyAdvancedQueryDevice() {
+    var name = $("#name").val();
+    var type = $("#type").val();
+    var transport = $("#transport").val();
+    $.ajax({
+        url: "/device/GetDevicesPartial",
+        data: { name: name, type: type, transport: transport },
+        success: function (data) {
+            if (data.error != undefined) {
+                alert(data.msg);
+            }
+            else {
+                document.getElementById('queryResult').innerHTML = data;
+            }
+        },
+        error: function (error) {
+            console.error('Error fetching partial view:', error);
+        }
+    });
+}
