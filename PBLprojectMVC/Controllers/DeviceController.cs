@@ -184,6 +184,9 @@ namespace PBLprojectMVC.Controllers
         {
             try
             {
+                ViewBag.UserLogged = HelperController.LoginSessionVerification(HttpContext.Session);
+                ViewBag.IsAdmin = HelperController.AdminSessitionVerification(HttpContext.Session);
+
                 return View("AdvancedQuery");
             }
             catch (Exception error)
