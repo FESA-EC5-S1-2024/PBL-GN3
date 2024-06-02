@@ -1,6 +1,7 @@
 ﻿using PBLprojectMVC.Models;
 using System.Data.SqlClient;
 using System.Data;
+using PBLprojectMVC.Controllers;
 
 namespace PBLprojectMVC.DAO
 {
@@ -52,14 +53,13 @@ namespace PBLprojectMVC.DAO
 
             List<UserViewModel> users = new List<UserViewModel>();
 
-            //string sql = "SELECT * FROM Persons WHERE CONCAT(FirstName, " + "\' \'" + ", LastName) LIKE @Query";
-            string sql = "SELECT * FROM " + Table;
+            string sql = "SELECT * FROM " + Table + " WHERE Name LIKE @Query";
 
             SqlParameter[] parameters = new SqlParameter[1];
             parameters[0] = new SqlParameter("@Query", SqlDbType.NVarChar) { Value = '%' + query + '%' };
             
             try{
-                foreach(DataRow row in HelperDAO.ExecuteSelect(sql, null).Rows){
+                foreach(DataRow row in HelperDAO.ExecuteSelect(sql, parameters).Rows){
                     users.Add(CreateModel(row));
                 }
             }
@@ -69,6 +69,18 @@ namespace PBLprojectMVC.DAO
 
             return users;
 
+        }
+
+        public override void Update(UserViewModel model)
+        {
+            model.Password = HashHelper.ComputeSha256Hash(model.Password);
+            base.Update(model);
+        }
+
+        public override void Insert(UserViewModel model)
+        {
+            model.Password = HashHelper.ComputeSha256Hash(model.Password);
+            base.Insert(model);
         }
     }
 }

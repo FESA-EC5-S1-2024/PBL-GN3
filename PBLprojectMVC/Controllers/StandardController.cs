@@ -113,6 +113,7 @@ namespace PBLprojectMVC.Controllers
                 }
                 catch (Exception error)
                 {
+                    Console.WriteLine(error.ToString());
                     return View("Error", new ErrorViewModel(error.ToString()));
                 }
             }

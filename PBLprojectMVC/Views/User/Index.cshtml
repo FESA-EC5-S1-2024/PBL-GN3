@@ -2,13 +2,14 @@
     ViewData["Title"] = "Gerenciamento de Usuários";
 }
 
-<h2 class="display-4 mb-4">Usuários</h2>
-
-<div class="mb-4">
+<div class="mb-4 pretty-boxes">
+    <h2>Usuários</h2>
+    <hr>
     <input type="text" id="searchInput" placeholder="Buscar pelo nome..." onkeyup="searchUsers()" class="form-control">
+    <button class="btn btn-success mx-1 nav-btn" onclick="createUser()" style="margin-top: 5px">Criar Registro</button>
 </div>
 
-<div class="table-responsive mb-4">
+<div class="table-responsive mb-4 pretty-boxes">
     <table class="table table-bordered table-hover">
         <thead class="thead-light">
             <tr>
@@ -31,6 +32,10 @@
 
     function editUser(id) {
         location.href = '/User/Edit?id=' + id;
+    }
+
+    function createUser() {
+        location.href = '/User/Create';
     }
 
     function updateAdminStatus(checkbox) {
@@ -68,13 +73,16 @@
                             <td>${user.name}</td>
                             <td>${user.email}</td>
                             <td>
-                                <input type="checkbox" data-user-id="${user.id}" onchange="updateAdminStatus(this)" ${user.isadmin ? 'checked' : ''}>
+                                <input type="checkbox" data-user-id="${user.id}" onchange="updateAdminStatus(this)" ${user.isAdmin ? 'checked' : ''} ${user.name=="Admin" ? 'disabled' : ''}>
                             </td>
-                            <td class="d-flex">
-                                <button class="btn btn-primary mr-2" onclick="editUser(${user.id})">Editar</button>
-                                <button class="btn btn-danger" onclick="deleteUser(${user.id})">Delete</button>
+                            <td class="d-flex" style="justify-content: center;">
+                                <button class="btn btn-primary mr-2" onclick="editUser(${user.id})" ${user.name=="Admin" ? 'disabled' : ''}>Editar</button>
+                                
+                                <button class="btn btn-danger" onclick="deleteUser(${user.id})" ${user.name=="Admin" ? 'disabled' : ''}>Delete</button>
                             </td>
                         </tr>`;
+
+                    console.log(user.isAdmin);
                     tbody.innerHTML += row;
                 });
             },

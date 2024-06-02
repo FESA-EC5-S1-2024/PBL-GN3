@@ -4,7 +4,8 @@
 
 <div class="text-center">
 
-    <input type="range" id="dataRange" min="5" max="100" value="20" step="5" style="width: 100%;">
+    <h2 id="test">Valores Mostrados: </h2>
+    <input type="range" id="dataRange" min="5" max="100" value="20" step="5" class="slider">
     <canvas style="display: block; box-sizing: border-box;" id="myChart" width=auto height=auto <canvas>
 
     <script>
@@ -16,6 +17,8 @@
         };
 
         function fetchDataAndUpdateChart(value) {
+            document.getElementById('test').innerText = 'Valores Mostrados: ' + document.getElementById('dataRange').value;
+
             const apiUrl = '/Home/Request?lastN=' + value;
             fetch(apiUrl)
                 .then(response => response.json())
