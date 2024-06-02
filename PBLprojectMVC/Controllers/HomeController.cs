@@ -49,7 +49,7 @@ public class HomeController : Controller
         return jsonDoc.RootElement.Clone();
     }
 
-    public IActionResult Privacy()
+    public IActionResult About()
     {
         return View();
     }
