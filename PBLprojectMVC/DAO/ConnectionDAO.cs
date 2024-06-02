@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Data.SqlClient;
+using System.Text.Json;
 
 namespace PBLprojectMVC.DAO
 {
@@ -8,13 +9,13 @@ namespace PBLprojectMVC.DAO
     {
         public static SqlConnection GetConnection()
         {
-            string filePath = "connectionString.txt"; 
+            string filePath = "config.json"; 
             string strConn;
             
             try
             {
                 //strConn = File.ReadAllText(filePath);
-                strConn ="";
+                strConn = "";
             }
             catch (Exception ex)
             {

@@ -4,9 +4,13 @@
 
 <div class="text-center">
 
-    <h2 id="test">Valores Mostrados: </h2>
+    <div class="center-container" style="padding: 0%">
+        <h2 class="pretty-boxes title" id="valuesToShow" style="margin: 10px">Valores Mostrados: </h2>
+        <h2 class="pretty-boxes" id="minValue" style="margin: 10px">Valor Mínimo: </h2>
+        <h2 class="pretty-boxes" id="maxValue" style="margin: 10px">Valor Máximo: </h2>
+    </div>
     <input type="range" id="dataRange" min="5" max="100" value="20" step="5" class="slider">
-    <canvas style="display: block; box-sizing: border-box;" id="myChart" width=auto height=auto <canvas>
+    <canvas style="display: block; box-sizing: border-box;" id="myChart" width=auto height=125% <canvas>
 
     <script>
 
@@ -17,7 +21,7 @@
         };
 
         function fetchDataAndUpdateChart(value) {
-            document.getElementById('test').innerText = 'Valores Mostrados: ' + document.getElementById('dataRange').value;
+            document.getElementById('valuesToShow').innerText = 'Valores Mostrados: ' + document.getElementById('dataRange').value;
 
             const apiUrl = '/Home/Request?lastN=' + value;
             fetch(apiUrl)
@@ -39,6 +43,9 @@
             const ctx = document.getElementById('myChart').getContext('2d');
             const labels = data.map(item => item.recvTime);
             const values = data.map(item => parseFloat(item.attrValue));
+
+            document.getElementById('minValue').innerText = 'Valor Mínimo: ' + Math.min(... values);
+            document.getElementById('maxValue').innerText = 'Valor Máximo: ' + Math.max(... values);
 
             const gradient = ctx.createLinearGradient(0, 0, 0, 400);
             gradient.addColorStop(0, 'rgba(10, 200, 50, 0.8)');
@@ -69,9 +76,9 @@
                         plugins: {
                             title: {
                                 display: true,
-                                text: 'Ultimos dados de Temperatura',
+                                text: 'Ultimos dados de Temperatura coletados',
                                 font: {
-                                    size: 20
+                                    size: 25
                                 }
                             },
                             tooltip: {
@@ -102,7 +109,7 @@
                                 },
                                 ticks: {
                                     autoSkip: true,
-                                    maxTicksLimit: 20
+                                    maxTicksLimit: 20,
                                 }
                             },
                             y: {
