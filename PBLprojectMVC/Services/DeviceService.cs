@@ -1,13 +1,15 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using PBLprojectMVC.Models;
 using System.Net.Http.Headers;
 using System.Text;
+using PBLprojectMVC.Utils;
 
 public class DeviceService
 {
     private readonly HttpClient _httpClient;
-    private readonly string host = "your_host";
+    private readonly string host = UtilsParams.Host();
 
     public DeviceService()
     {
