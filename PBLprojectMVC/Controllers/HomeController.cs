@@ -51,6 +51,9 @@ public class HomeController : Controller
 
     public IActionResult About()
     {
+        ViewBag.UserLogged = HelperController.LoginSessionVerification(HttpContext.Session);
+        ViewBag.IsAdmin = HelperController.AdminSessitionVerification(HttpContext.Session);
+
         return View();
     }
 
