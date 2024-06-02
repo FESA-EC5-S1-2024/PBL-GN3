@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using PBLprojectMVC.DAO;
 using PBLprojectMVC.Models;
 using PBLprojectMVC.Services;
+using PBLprojectMVC.Utils;
+using System;
+using System.Text.Json;
 
 namespace PBLprojectMVC.Controllers
 {
@@ -84,6 +87,53 @@ namespace PBLprojectMVC.Controllers
                 listDevices.Add(item);
             }
             ViewBag.Devices = listDevices;
+        }
+
+        public IActionResult Dashboard()
+        {
+            try
+            {
+                ViewBag.UserLogged = HelperController.LoginSessionVerification(HttpContext.Session);
+                ViewBag.IsAdmin = HelperController.AdminSessitionVerification(HttpContext.Session);
+
+                return View("Dashboard");
+            }
+            catch (Exception error)
+            {
+                return View("Error", new ErrorViewModel(error.Message));
+            }
+        }
+        public async Task<JsonResult> Request(string lastN, DateTime dateFrom, DateTime dateTo)
+        {
+            var data = await Request_D(lastN, dateFrom, dateTo);
+            return Json(data);
+        }
+
+        public async Task<JsonElement> Request_D(string lastN, DateTime dateFrom, DateTime dateTo)
+        {
+            string port = "8666";
+            string host = UtilsParams.Host();
+
+            var client = new HttpClient();
+            string url = $"http://{host}:{port}/STH/v2/entities/urn:ngsi-ld:Temp:003/attrs/temperature?type=Temp&&lastN={lastN}";
+            if (dateFrom == dateTo)
+            {
+                dateTo = dateTo.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+            }
+            if (dateFrom != default && dateTo != default)
+            {
+                url += $"&dateFrom={dateFrom:yyyy-MM-ddTHH:mm:ss.fff}&dateTo={dateTo:yyyy-MM-ddTHH:mm:ss.fff}";
+            }
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            request.Headers.Add("fiware-service", "smart");
+            request.Headers.Add("fiware-servicepath", "/");
+
+            var response = await client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+
+            using var jsonDoc = JsonDocument.Parse(responseBody);
+            return jsonDoc.RootElement.Clone();
         }
     }
 }
