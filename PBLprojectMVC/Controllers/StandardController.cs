@@ -123,7 +123,7 @@ namespace PBLprojectMVC.Controllers
             }
         }
 
-        public IActionResult Delete(int id)
+        public virtual IActionResult Delete(int id)
         {
             if (HelperController.VerificaAdmin(HttpContext.Session))
             {

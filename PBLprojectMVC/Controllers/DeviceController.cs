@@ -6,9 +6,11 @@ namespace PBLprojectMVC.Controllers
 {
     public class DeviceController : StandardController<DeviceViewModel>
     {
+        private readonly DeviceService deviceService;
         public DeviceController()
         {
             DAO = new DeviceDAO();
+            deviceService = new DeviceService();
         }
 
         public override IActionResult Index()
@@ -22,6 +24,27 @@ namespace PBLprojectMVC.Controllers
             {
                 return View("Error", new ErrorViewModel(error.ToString()));
             }
+        }
+
+        public override IActionResult Save(DeviceViewModel model, string operation)
+        {
+            IActionResult action = base.Save(model, operation);
+            if (ModelState.IsValid && operation == "I")
+            {
+                var response = RegisterDevice(model.Name);
+            }
+            return action;
+        }
+
+        public override IActionResult Delete(int id)
+        {
+            var device = DAO.Get(id);
+            IActionResult action = base.Delete(id);
+            if (ModelState.IsValid)
+            {
+                var response = DeleteDevice(device.Name);
+            }
+            return action;
         }
 
         protected override void ValidateData(DeviceViewModel model, string operation)
@@ -65,5 +88,61 @@ namespace PBLprojectMVC.Controllers
                 return null;
         }
 
+        public async Task<string> RegisterDevice(string deviceName)
+        {
+            string host = "your_host";
+            int port = 4041;                // IoT-Agent MQTT Port
+            string deviceId = deviceName;
+            string entityName = "urn:ngsi-ld:" + GetEntityName(deviceName); //URN format
+
+            var response = await deviceService.RegisterDeviceAsync(host, port, deviceId, entityName);
+            
+            if (response.IsSuccessStatusCode)
+            {
+                // Handle success response
+                ViewBag.Message = "Device registered successfully.";
+            }
+            else
+            {
+                // Handle error response
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                ViewBag.Message = $"Error: {errorMessage}";
+            }
+            return ViewBag.Message;
+        }
+
+        public static string GetEntityName(string input)
+        {
+            var prefix = string.Concat(input.TakeWhile(char.IsLetter));
+            var numericPart = string.Concat(input.SkipWhile(char.IsLetter));
+            if (string.IsNullOrEmpty(numericPart))
+            {
+                numericPart = "001";
+            }
+            prefix = char.ToUpper(prefix[0]) + prefix.Substring(1);
+            return $"{prefix}:{numericPart}";
+        }
+
+        public async Task<string> DeleteDevice(string deviceId)
+        {
+            string host = "your_host";
+            int port = 4041;    // IoT-Agent MQTT Port
+
+            var response = await deviceService.DeleteDeviceAsync(host, port, deviceId);
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Handle success response
+                ViewBag.Message = "Device deleted successfully.";
+            }
+            else
+            {
+                // Handle error response
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                ViewBag.Message = $"Error: {errorMessage}";
+            }
+
+            return ViewBag.Message;
+        }
     }
 }
