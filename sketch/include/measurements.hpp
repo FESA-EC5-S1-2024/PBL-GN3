@@ -2,4 +2,3 @@
 
 float highResolutionTemperature();
 float lowResolutionTemperature();
-
