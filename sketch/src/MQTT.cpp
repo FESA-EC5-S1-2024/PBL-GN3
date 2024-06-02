@@ -1,9 +1,7 @@
-#include "../include/config.hpp"
 #include "../include/MQTT.hpp"
+#include "../include/config.hpp"
 
-void initMQTT() {
-  MQTT.setServer(BROKER_MQTT, BROKER_PORT);
-}
+void initMQTT() { MQTT.setServer(BROKER_MQTT, BROKER_PORT); }
 
 void reconnectMQTT() {
   while (!MQTT.connected()) {

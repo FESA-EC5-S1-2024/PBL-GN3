@@ -6,15 +6,12 @@ void reconectWiFi();
 WiFiClient espClient;
 PubSubClient MQTT(espClient);
 
-void initSerial() {
-  Serial.begin(115200);
-}
+void initSerial() { Serial.begin(115200); }
 
 void VerificaConexoesWiFIEMQTT() {
-  if (!MQTT.connected()){
+  if (!MQTT.connected()) {
     reconnectMQTT();
   }
-  reconectWiFi();
 }
 
 void InitOutput() {
