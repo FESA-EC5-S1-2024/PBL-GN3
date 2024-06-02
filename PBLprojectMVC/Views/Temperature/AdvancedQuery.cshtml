@@ -1,0 +1,39 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Consulta de Temperatura";
+}
+<fieldset id="areaFilter" class="form-group bg-gray-200 p-4 rounded-lg shadow-md">
+    <h2 class="title" style="font-weight: bold;">Consulta Avançada de Temperatura</h2>
+    <hr>
+    <div class="pretty-boxes flex flex-wrap gap-4">
+        <div class="w-full lg:w-auto flex-1">
+            <label for="deviceName" class="block text-gray-700 font-bold mb-2">Dispositivo</label>
+            <select id="deviceName" class="form-control shadow appearance-none border rounded w-full py-1 px-2 pr-8 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" asp-items="@ViewBag.Devices"></select>
+        </div>
+        <div class="w-full lg:w-auto flex-1">
+            <label for="hLimit" class="block text-gray-700 font-bold mb-2">Número de Registros</label>
+            <input type="number" id="hLimit" class="form-control shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+        </div>
+        <div class="w-full lg:w-auto flex-1">
+            <label for="offSet" class="block text-gray-700 font-bold mb-2">OffSet</label>
+            <input type="number" id="offSet" class="form-control shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+        </div>
+
+
+        <div class="w-full lg:w-auto flex-1">
+            <label for="dateFrom" class="block text-gray-700 font-bold mb-2">Período Inicial</label>
+            <input type="date" id="dateFrom" class="form-control shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+        </div>
+        <div class="w-full lg:w-auto flex-1">
+            <label for="dateTo" class="block text-gray-700 font-bold mb-2">Período Final</label>
+            <input type="date" id="dateTo" class="form-control shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+        </div>
+
+        <div class="w-full lg:w-auto flex items-end">
+            <input type="button" id="btnFilter" class="btn btn-success hover:bg-gray-800 text-white font-bold py-1 px-4 rounded hover:cursor-pointer focus:outline-none focus:shadow-outline" style="margin-top: 10px" value="Aplicar" onclick="applyAdvancedQueryTemperature()" />
+        </div>
+    </div>
+</fieldset>
+<div id="queryResultTemp" class="table-responsive mt-4">
+    <!-- Query results here -->
+</div>
