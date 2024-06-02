@@ -145,7 +145,10 @@ namespace PBLprojectMVC.Controllers
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            if (NeedsAuthentication && HelperController.LoginSessionVerification(HttpContext.Session))
+            ViewBag.UserLogged = HelperController.LoginSessionVerification(HttpContext.Session);
+            ViewBag.IsAdmin = HelperController.AdminSessitionVerification(HttpContext.Session);
+
+            if (NeedsAuthentication && !HelperController.LoginSessionVerification(HttpContext.Session))
             {
                 if (NewUser)
                 {

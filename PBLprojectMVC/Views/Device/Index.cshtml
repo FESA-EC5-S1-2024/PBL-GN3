@@ -74,16 +74,17 @@
 
 <script>
 
-function createDevice(){
-    location.href = '/Device/Create';
-}
+    function createDevice(){
+        location.href = '/Device/Create';
+    }
 
-function editDevice(id){
-    location.href = '/Device/Edit?id=' + id;
-}
+    function editDevice(id){
+        console.log("AAAAAAAAAA");
+        location.href = '/Device/Edit?id=' + id;
+    }
 
-funciton deleteDevice(id){
-    location.href = '/Device/Delete?id=' + id;
-}
+    function deleteDevice(id){
+        location.href = '/Device/Delete?id=' + id;
+    }
 
 </script>
