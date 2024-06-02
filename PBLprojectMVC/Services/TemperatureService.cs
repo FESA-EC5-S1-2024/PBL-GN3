@@ -1,12 +1,13 @@
 ﻿using Newtonsoft.Json;
 using PBLprojectMVC.Models;
+using PBLprojectMVC.Utils;
 
 namespace PBLprojectMVC.Services
 {
     public class TemperatureService
     {
         private readonly HttpClient _httpClient;
-        private readonly string host = "your_host";
+        private readonly string host = UtilsParams.Host();
 
         public TemperatureService()
         {
