@@ -1,0 +1,33 @@
+﻿@model List<DeviceViewModel>
+
+<h2 class="text-2xl font-bold text-center pt-2 my-4">Dispositivos</h2>
+
+<div class="flex w-5/6 justify-end -mt-12 mb-4">
+    <a class="py-5"></a>
+</div>
+
+<div class="flex justify-center">
+    <div class="w-full max-w-7xl">
+        <table class="min-w-full bg-gray-700 text-white rounded-lg shadow">
+            <thead>
+                <tr>
+                    <th class="py-2 px-4 text-left">Nome</th>
+                    <th class="py-4 px-6 text-left">Entidade</th>
+                    <th class="py-4 px-6 text-left">Tipo</th>
+                    <th class="py-4 px-6 text-left">Transporte</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var device in Model)
+                {
+                    <tr class="border-t border-gray-100">
+                        <td class="py-2 px-4 text-left">@device.Name</td>
+                        <td class="py-2 px-4 text-left">@device.Entity</td>
+                        <td class="py-2 px-4 text-left">@device.Type</td>
+                        <td class="py-2 px-4 text-left">@device.Transport</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
