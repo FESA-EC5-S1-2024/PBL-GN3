@@ -1,36 +1,37 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace PBLprojectMVC.Controllers
 {
-    public class HelperController : Controller
+    public static class HelperController
     {
-        public static Boolean VerificaUserLogado(ISession session)
+        public static bool LoginSessionVerification(ISession session)
         {
-            string logado = session.GetString("Logado");
-            if (logado == null)
-            {
+            if(session.GetString("UserLogged") == null)
                 return false;
-            }
             else
-            {
                 return true;
-            }
         }
-        public static Boolean VerificaAdmin(ISession session)
+
+        public static bool AdminSessitionVerification(ISession session)
         {
-            string admin = session.GetString("Admin");
-            if (admin == "false")
-            {
+            if(session.GetString("IsAdmin") == null)
                 return false;
-            }
-            else if (admin == null)
-            {
-                return false;
-            }
             else
-            {
                 return true;
-            }
         }
+
+        public static int? ActualUserID(ISession session)
+        {
+            return session.GetInt32("ID");
+        }
+
     }
 }
+

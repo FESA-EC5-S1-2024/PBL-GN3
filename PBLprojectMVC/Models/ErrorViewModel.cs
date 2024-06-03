@@ -2,16 +2,17 @@ namespace PBLprojectMVC.Models
 {
     public class ErrorViewModel
     {
-        public ErrorViewModel(string message)
-        {
-            Error = message;
+      
+        public string? Error;
+        public string? RequestId { get; set; }
+      
+        public ErrorViewModel(){
         }
 
-        public ErrorViewModel() { }
-
-        public string Error { get; set; }
-
-        public string RequestId { get; set; }
-
+        public ErrorViewModel(string error){
+            this.Error = error;
+        }
+      
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
     }
+}

@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Http;
 using System.Net.Http;
 using System.Text.Json;
 using Newtonsoft.Json.Linq;
@@ -40,7 +42,7 @@ public class HomeController : Controller
         var request = new HttpRequestMessage(HttpMethod.Get, "http://" + host + ":" + port + "/STH/v2/entities/urn:ngsi-ld:Temp:003/attrs/temperature?type=Temp&lastN=" + lastN);
         request.Headers.Add("fiware-service", "smart");
         request.Headers.Add("fiware-servicepath", "/");
-
+ 
         var response = await client.SendAsync(request);
         response.EnsureSuccessStatusCode();
         string responseBody = await response.Content.ReadAsStringAsync();
@@ -59,7 +61,8 @@ public class HomeController : Controller
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
-    {
+    {   
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+    
 }

@@ -1,39 +1,49 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using PBLprojectMVC.DAO;
+using Microsoft.Extensions.Logging;
 using PBLprojectMVC.Models;
+using PBLprojectMVC.DAO;
 
 namespace PBLprojectMVC.Controllers
 {
     public class StandardController<T> : Controller where T : StandardViewModel
     {
-        protected bool RequiresAuthentication { get; set; } = true;
+        // Standard Controller for CRUD operations
+        protected StandardDAO<T> DAO { get; set; }
+        protected bool NeedsAuthentication { get; set; } = true;
+
+        // Default view names
+        protected string IndexViewName { get; set; } = "Index";
+        protected string FormViewName { get; set; } = "Form";
+        
         protected bool RequiresAdmin { get; set; } = true;
         protected bool NewUser { get; set; } = false;
-        protected StandardDAO<T> DAO { get; set; }
-        protected string NameViewIndex { get; set; } = "index";
-        protected string NameViewForm { get; set; } = "form";
         protected virtual void ValidateData(T model, string operation) { }
         protected virtual void FillDataForView(string operation, T model) { }
 
         public virtual IActionResult Index()
         {
-            if (HelperController.VerificaUserLogado(HttpContext.Session))
+            try
             {
                 ViewBag.UserLogged = HelperController.LoginSessionVerification(HttpContext.Session);
                 ViewBag.IsAdmin = HelperController.AdminSessitionVerification(HttpContext.Session);
 
                 return View();
             }
-            else
+            catch (Exception error)
             {
-                return View("Error", new ErrorViewModel("Access denied."));
+                return View("Error", new ErrorViewModel(error.ToString()));
             }
         }
-
+        
         public virtual IActionResult Create()
         {
-            if (HelperController.VerificaAdmin(HttpContext.Session) || NewUser)
+            if (HelperController.AdminSessitionVerification(HttpContext.Session) || NewUser)
             {
                 try
                 {
@@ -52,10 +62,10 @@ namespace PBLprojectMVC.Controllers
                 return View("Error", new ErrorViewModel("Access denied."));
             }
         }
-
+        
         public virtual IActionResult Save(T model, string operation)
         {
-            bool admin = HelperController.VerificaAdmin(HttpContext.Session);
+            bool admin = HelperController.AdminSessitionVerification(HttpContext.Session);
             if (admin || NewUser)
             {
                 try
@@ -97,7 +107,7 @@ namespace PBLprojectMVC.Controllers
 
         public IActionResult Edit(int id)
         {
-            if (HelperController.VerificaAdmin(HttpContext.Session))
+            if (HelperController.AdminSessitionVerification(HttpContext.Session))
             {
                 try
                 {
@@ -125,7 +135,7 @@ namespace PBLprojectMVC.Controllers
 
         public virtual IActionResult Delete(int id)
         {
-            if (HelperController.VerificaAdmin(HttpContext.Session))
+            if (HelperController.AdminSessitionVerification(HttpContext.Session))
             {
                 try
                 {
@@ -159,10 +169,6 @@ namespace PBLprojectMVC.Controllers
                     context.Result = RedirectToAction("Index", "Login");
                 }
 
-            }
-            else if (RequiresAdmin && !HelperController.VerificaAdmin(HttpContext.Session))
-            {
-                context.Result = View("Error", new ErrorViewModel("Access denied."));
             }
             else
             {
