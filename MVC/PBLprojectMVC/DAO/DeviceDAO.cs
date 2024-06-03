@@ -14,6 +14,7 @@ namespace PBLprojectMVC.DAO
             parameters.Add(new SqlParameter("Name", device.Name));
             parameters.Add(new SqlParameter("Type", device.Type));
             parameters.Add(new SqlParameter("Image", HelperDAO.NullAsDbNull(device.ImageByte)));
+            parameters.Add(new SqlParameter("TeamId", device.TeamId));
 
             return parameters.ToArray();
         }
@@ -24,6 +25,9 @@ namespace PBLprojectMVC.DAO
             device.Id = Convert.ToInt32(record["Id"]);
             device.Name = record["Name"].ToString();
             device.Type = record["Type"].ToString();
+            device.TeamId = Convert.ToInt32(record["TeamId"]);
+            if (record.Table.Columns.Contains("TeamName"))
+                device.TeamName = record["TeamName"].ToString();
             if (record["Image"] != DBNull.Value)
                 device.ImageByte = record["Image"] as byte[];
             return device;

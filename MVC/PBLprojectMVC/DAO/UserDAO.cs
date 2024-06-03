@@ -16,6 +16,7 @@ namespace PBLprojectMVC.DAO
             parameters.Add(new SqlParameter("@Email", user.Email));
             parameters.Add(new SqlParameter("@Password", user.Password));
             parameters.Add(new SqlParameter("@IsAdmin", user.IsAdmin));
+            parameters.Add(new SqlParameter("@TeamId", user.TeamId));
 
             return parameters.ToArray();
         }
@@ -28,6 +29,9 @@ namespace PBLprojectMVC.DAO
             user.Email = record["Email"].ToString();
             user.Password = record["Password"].ToString();
             user.IsAdmin = Convert.ToBoolean(record["IsAdmin"]);
+            user.TeamId = Convert.ToInt32(record["TeamId"]);
+            if (record.Table.Columns.Contains("TeamName"))
+                user.TeamName = record["TeamName"].ToString();
             return user;
         }
 
@@ -53,7 +57,7 @@ namespace PBLprojectMVC.DAO
 
             List<UserViewModel> users = new List<UserViewModel>();
 
-            string sql = "SELECT * FROM " + Table + " WHERE Name LIKE @Query";
+            string sql = $"SELECT [{Table}].*, [Team].Name AS 'TeamName' FROM [{Table}] INNER JOIN Team ON [{Table}].TeamId = [Team].Id WHERE [{Table}].Name LIKE @Query";
 
             SqlParameter[] parameters = new SqlParameter[1];
             parameters[0] = new SqlParameter("@Query", SqlDbType.NVarChar) { Value = '%' + query + '%' };

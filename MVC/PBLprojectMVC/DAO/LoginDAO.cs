@@ -18,12 +18,13 @@ namespace PBLprojectMVC.DAO
 
         protected override SqlParameter[] CreateParameters(UserViewModel model)
         {
-            SqlParameter[] parameters = new SqlParameter[5];
+            SqlParameter[] parameters = new SqlParameter[6];
             parameters[0] = new SqlParameter("@Id", model.Id);
             parameters[1] = new SqlParameter("@Name", model.Name);
             parameters[2] = new SqlParameter("@Email", model.Email);
             parameters[3] = new SqlParameter("@Password", model.Password);
             parameters[4] = new SqlParameter("@IsAdmin", model.IsAdmin);
+            parameters[5] = new SqlParameter("@TeamId", model.TeamId);
             return parameters;
         }
 
@@ -36,7 +37,10 @@ namespace PBLprojectMVC.DAO
             user.Email = row["Email"].ToString();
             user.Password = "";
             user.IsAdmin = (bool)row["IsAdmin"];
-            
+            user.TeamId = Convert.ToInt32(row["TeamId"]);
+            if (row.Table.Columns.Contains("TeamName"))
+                user.TeamName = row["TeamName"].ToString();
+
             return user;
         }
 

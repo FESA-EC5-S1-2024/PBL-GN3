@@ -8,6 +8,7 @@ using PBLprojectMVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.WebEncoders.Testing;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace PBLprojectMVC.Controllers
 {
@@ -24,7 +25,9 @@ namespace PBLprojectMVC.Controllers
             return View("Error!");
         }
 
-        public IActionResult NewLogin(){
+        public IActionResult NewLogin()
+        {
+            LoadTeamsComboList();
             return View("Register");
         }
 
@@ -100,5 +103,25 @@ namespace PBLprojectMVC.Controllers
             return RedirectToAction("Index");
         }
 
+        protected override void FillDataForView(string operation, UserViewModel model)
+        {
+            base.FillDataForView(operation, model);
+            LoadTeamsComboList();
+        }
+        private void LoadTeamsComboList()
+        {
+            TeamDAO teamDAO = new TeamDAO();
+            var teams = teamDAO.GetAll();
+            List<SelectListItem> teamList = new List<SelectListItem>
+            {
+                new SelectListItem("Selecione uma equipe...", "0")
+            };
+            foreach (var team in teams)
+            {
+                SelectListItem item = new SelectListItem(team.Name, team.Id.ToString());
+                teamList.Add(item);
+            }
+            ViewBag.Teams = teamList;
+        }
     }
 }

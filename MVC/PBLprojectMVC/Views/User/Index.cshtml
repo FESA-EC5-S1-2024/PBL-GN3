@@ -16,6 +16,7 @@
                 <th scope="col">Nome</th>
                 <th scope="col">Email</th>
                 <th scope="col">IsAdmin</th>
+                <th scope="col">Equipe</th>
                 <th scope="col">Ações</th>
             </tr>
         </thead>
@@ -75,6 +76,7 @@
                             <td>
                                 <input type="checkbox" data-user-id="${user.id}" onchange="updateAdminStatus(this)" ${user.isAdmin ? 'checked' : ''} ${user.name=="Admin" ? 'disabled' : ''}>
                             </td>
+                            <td>${user.teamName}</td>
                             <td class="d-flex" style="justify-content: center;">
                                 <button class="btn btn-primary mr-2" onclick="editUser(${user.id})" ${user.name=="Admin" ? 'disabled' : ''}>Editar</button>
                                 

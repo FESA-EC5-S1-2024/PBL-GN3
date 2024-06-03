@@ -2,6 +2,7 @@
 using PBLprojectMVC.DAO;
 using PBLprojectMVC.Models;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace PBLprojectMVC.Controllers
 {
@@ -26,6 +27,30 @@ namespace PBLprojectMVC.Controllers
 
             if (string.IsNullOrEmpty(model.Password) || model.Password.Length < 8)
                 ModelState.AddModelError("Password", "Adicione uma Password.");
+
+            if (model.TeamId <= 0)
+                ModelState.AddModelError("TeamId", "Informe a equipe.");
+        }
+
+        protected override void FillDataForView(string operation, UserViewModel model)
+        {
+            base.FillDataForView(operation, model);
+            LoadTeamsComboList();
+        }
+        private void LoadTeamsComboList()
+        {
+            TeamDAO teamDAO = new TeamDAO();
+            var teams = teamDAO.GetAll();
+            List<SelectListItem> teamList = new List<SelectListItem>
+            {
+                new SelectListItem("Selecione uma equipe...", "0")
+            };
+            foreach (var team in teams)
+            {
+                SelectListItem item = new SelectListItem(team.Name, team.Id.ToString());
+                teamList.Add(item);
+            }
+            ViewBag.Teams = teamList;
         }
 
         public IActionResult UpdateAdminStatus(int id, bool isAdmin) {

@@ -1,0 +1,85 @@
+﻿@model List<TeamViewModel>
+@{
+    ViewData["Title"] = "Equipes";
+}
+
+<div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+    <div class="d-sm-inline-flex">
+        <h2 class="title" style="font-weight: bold;">Equipes</h2>
+
+        <div class="flex max-w-7xl justify-end">
+            @{
+                if (Context.Session.GetString("IsAdmin") == "true")
+                {
+                    <button onclick="createTeam()" class="btn btn-success bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Registrar Equipe</button>
+                }
+                else
+                {
+                    <button onclick="createTeam()" class="btn btn-success bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" disabled>Registrar Equipe</button>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<div class="center-container pretty-boxes">
+    <div class="w-full max-w-6xl">
+        <table class="min-w-full bg-gray-700 text-white rounded-lg table-bordered shadow">
+            <thead>
+                <tr>
+                    <th class="py-4 px-6">Nome</th>
+                    <th class="py-4 px-6">Descrição</th>
+                    @{
+                        if (Context.Session.GetString("IsAdmin") == "true")
+                        {
+                            <th class="py-4 px-6">Ações</th>
+                        }
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var team in Model)
+                {
+                    <tr class="border-t border-gray-100">
+                        <td class="py-2 px-4">@team.Name</td>
+                        <td class="py-2 px-4">@team.Description</td>
+                        @{
+                            if (Context.Session.GetString("IsAdmin") == "true")
+                            {
+                                <td class="py-2 px-4">
+                                    <button onclick="editTeam(@team.Id)" class="btn btn-primary hover:text-gray-500">Editar ✏️</button>
+                                    <button onclick="deleteTeam(@team.Id)" class="btn btn-danger ml-2 hover:text-gray-500">Deletar ❌</button>
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="py-2 px-4">
+                                    <button onclick="editTeam(@team.Id)" class="btn btn-primary hover:text-gray-500" disabled>Editar ✏️</button>
+                                    <button onclick="deleteTeam(@team.Id)" class="btn btn-danger ml-2 hover:text-gray-500" disabled>Deletar ❌</button>
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+
+    function createTeam() {
+        location.href = '/Team/Create';
+    }
+
+    function editTeam(id) {
+        location.href = '/Team/Edit?id=' + id;
+    }
+
+    function deleteTeam(id) {
+        location.href = '/Team/Delete?id=' + id;
+    }
+
+</script>

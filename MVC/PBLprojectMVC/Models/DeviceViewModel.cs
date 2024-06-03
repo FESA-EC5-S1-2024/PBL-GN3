@@ -4,6 +4,8 @@
     {
         public string Name { get; set; }
         public string Type{ get; set; }
+        public int TeamId { get; set; }
+        public string TeamName { get; set; }
         public IFormFile Image { get; set; }
         public byte[] ImageByte { get; set; }
         public string ImageBase64

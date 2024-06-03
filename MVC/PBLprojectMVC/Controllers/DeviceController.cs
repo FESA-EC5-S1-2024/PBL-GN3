@@ -65,6 +65,9 @@ namespace PBLprojectMVC.Controllers
             if (string.IsNullOrEmpty(model.Type))
                 ModelState.AddModelError("Type", "Preencha o tipo.");
 
+            if (model.TeamId <= 0)
+                ModelState.AddModelError("TeamId", "Informe a equipe.");
+
             // Image is required on Insert
             if (model.Image == null && operation == "I")
                 ModelState.AddModelError("Image", "Escolha uma imagem.");
@@ -83,6 +86,27 @@ namespace PBLprojectMVC.Controllers
                     model.ImageByte = ConvertImageToByte(model.Image);
                 }
             }
+        }
+
+        protected override void FillDataForView(string operation, DeviceViewModel model)
+        {
+            base.FillDataForView(operation, model);
+            LoadTeamsComboList();
+        }
+        private void LoadTeamsComboList()
+        {
+            TeamDAO teamDAO = new TeamDAO();
+            var teams = teamDAO.GetAll();
+            List<SelectListItem> teamList = new List<SelectListItem>
+            {
+                new SelectListItem("Selecione uma equipe...", "0")
+            };
+            foreach (var team in teams)
+            {
+                SelectListItem item = new SelectListItem(team.Name, team.Id.ToString());
+                teamList.Add(item);
+            }
+            ViewBag.Teams = teamList;
         }
 
         public byte[] ConvertImageToByte(IFormFile file)
