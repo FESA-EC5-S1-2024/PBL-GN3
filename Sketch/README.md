@@ -1,4 +1,4 @@
-# sketch
+# Sketch
 
 Esta pasta contém todos os arquivos e explicações relacionados ao funcionamento 
 do código do ESP32.
@@ -27,7 +27,7 @@ no tópico MQTT. Abaixo, um diagrama que exemplifica a lógica utilizada no ESP3
 <details>
 <summary>Veja o diagrama da divisão de núcleos</summary>
 
-![Cores](../doc/Divisao_de_Nucleos.png)
+![Cores](../doc/Sketch/Divisao_de_Nucleos.png)
 
 </details>
 
@@ -71,7 +71,7 @@ para os valores lidos. Abaixo, a curva de calibração do kit utilizado:
 <details>
 <summary>Veja a curva de calibração do kit</summary>
 
-![Interpolação](../doc/Curva_de_Calibracao_do_Sensor.png)
+![Interpolação](../doc/Sketch/Curva_de_Calibracao_do_Sensor.png)
 
 </details>
 
@@ -83,7 +83,7 @@ mais simples no diagrama abaixo:
 <details>
 <summary>Veja o diagrama de obtenção da temperatura</summary>
 
-![Temperatura](../doc/Obtencao_da_Temperatura.png)
+![Temperatura](../doc/Sketch/Obtencao_da_Temperatura.png)
 
 </details>
 
@@ -114,7 +114,7 @@ direta entre 3.3V e 10V.
 <details>
 <summary>Veja a montagem</summary>
 
-![Montagem](../doc/Montagem.png)
+![Montagem](../doc/Sketch/Montagem.png)
 
 </details>
 
@@ -123,6 +123,6 @@ direta entre 3.3V e 10V.
 <details>
 <summary>Veja o diagrama elétrico</summary>
 
-![Diagrama](../doc/Diagrama.png)
+![Diagrama](../doc/Sketch/Diagrama.png)
 
 </details>

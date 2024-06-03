@@ -50,7 +50,7 @@ e aparelhos, acessível e controlado apenas por usuários administradores.
   ambiente Docker.
 - [**Postman/**](./Postman/README.md): Coleções e ambientes para testes com
   Postman.
-- [**sketch/**](./sketch/README.md): Códigos e exemplos de sketch para o
+- [**Sketch/**](./Sketch/README.md): Códigos e exemplos de sketch para o
   projeto.
 - [**MVC/**](./MVC/README.md): Códigos da interface web.
 

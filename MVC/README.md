@@ -12,16 +12,16 @@ As telas comuns são aquelas que, ao estar configurado e executado corretamente 
 
 #### Tela Principal
 
-![plot](./assets/Tela_Comum.png)
+![plot](../doc/MVC/Tela_Comum.png)
 
 #### Tela de Aquisição de Login
 
-![plot](./assets/Tela_Aquisicao_Login.png)
+![plot](../doc/MVC/Tela_Aquisicao_Login.png)
 
 
 #### Tela Sobre
 
-![plot](./assets/Tela_Sobre.png)
+![plot](../doc/MVC/Tela_Sobre.png)
 
 ### Telas para Usuários Logados
 
@@ -29,11 +29,11 @@ Além de todos os aspectos mostrados pelas telas comuns, usuários logados podem
 
 #### Tela de Dispositivos
 
-![plot](./assets/Tela_Dispositivos.png)
+![plot](../doc/MVC/Tela_Dispositivos.png)
 
 #### Tela de Consulta Avançada
 
-![plot](./assets/Tela_Dispositivos_Consultas_Avancadas.png)
+![plot](../doc/MVC/Tela_Dispositivos_Consultas_Avancadas.png)
 
 #### Telas para Admins
 
@@ -41,11 +41,11 @@ Somado a todas as funcionalidades anteriores, usuários admins podem fazer ediç
 
 ##### Tela De Gerenciamento de Usuários
 
-![plot](./assets/Tela_Admin_Usuarios.png)
+![plot](../doc/MVC/Tela_Admin_Usuarios.png)
 
 ##### Exemplo de Tela de Edição
 
-![plot](./assets/Tela_Exemplo_Edicao.png)
+![plot](../doc/MVC/Tela_Exemplo_Edicao.png)
 
 ## Configuração do Sistema MVC de Controle de Temperatura
 
