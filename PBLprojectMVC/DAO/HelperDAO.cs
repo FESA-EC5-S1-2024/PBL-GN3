@@ -1,5 +1,9 @@
-﻿using System.Data.SqlClient;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace PBLprojectMVC.DAO
 {
@@ -7,16 +11,7 @@ namespace PBLprojectMVC.DAO
     {
         public static void ExecuteProc(string NameProc, SqlParameter[] parameters)
         {
-            if (value == null)
-                return DBNull.Value;
-            else
-                return value;
-        }
-
-        public static void ExecuteProc(string nameProc,
-                                      SqlParameter[] parameters)
-        {
-            using (SqlConnection connection = ConnectionDB.GetConnection())
+            using (SqlConnection conn = ConnectionDAO.GetConnection())
             {
                 using (SqlCommand command = new SqlCommand(NameProc, conn))
                 {
@@ -40,20 +35,33 @@ namespace PBLprojectMVC.DAO
                 DataTable table = new DataTable();
                 adapter.Fill(table);
 
-        public static DataTable ExecuteProcSelect(string nameProc, SqlParameter[] parameters)
+                return table;
+                }
+            }
+        }
+    
+        public static DataTable ExecuteSelect(string sql, SqlParameter[] parameters)
         {
-            using (SqlConnection connection = ConnectionDB.GetConnection())
+            using(SqlConnection conn = ConnectionDAO.GetConnection())
             {
-                using (SqlDataAdapter adapter = new SqlDataAdapter(nameProc, connection))
+                using(SqlDataAdapter adapter = new SqlDataAdapter(sql, conn))
                 {
                     if (parameters != null)
                         adapter.SelectCommand.Parameters.AddRange(parameters);
-                    adapter.SelectCommand.CommandType = CommandType.StoredProcedure;
                     DataTable table = new DataTable();
                     adapter.Fill(table);
                     return table;
                 }
             }
         }
+      
+        public static object NullAsDbNull(object value)
+        {
+            if (value == null)
+                return DBNull.Value;
+            else
+                return value;
+        }
     }
 }
+

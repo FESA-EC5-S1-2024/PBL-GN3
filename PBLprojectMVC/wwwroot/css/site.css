@@ -50,6 +50,55 @@ html {
 
 body {
   margin-bottom: 60px;
+  background: #35B874;
+}
+
+footer {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid;
+    border-color: black;
+    border-radius: 10px;
+    background-color: #3D634F;
+    color: black;
+    width: calc(100% - 20px);
+    position: absolute;
+    bottom: 0;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.center-container{
+  display:flex;
+  justify-content: center;
+  padding: 5%;
+}
+
+.login-boxes{
+  padding: 5%;
+  border: 2px solid;
+  border-color: black;
+  border-radius: 10px;
+  background-color: #3D634F;
+  color: white;
+}
+
+.pretty-boxes{
+  padding: 2%;
+  border: 2px solid;
+  border-color: black;
+  border-radius: 10px;
+  background-color: #3D634F;
+  color: white;
+}
+
+.login-button{
+  background-color: #23332A;
+}
+
+.title{
+  text-align: center;
+  font-weight: bold
 }
 
 canvas {
@@ -61,11 +110,46 @@ canvas {
   color: black;
 }
 
+tr{
+  text-align: center;
+  color : white;
+}
+
+.pretty-boxes{
+  padding: 2%;
+  border: 2px solid;
+  border-color: black;
+  border-radius: 10px;
+  background-color: #3D634F;
+  color: white;
+}
+
 button{
   margin-left: 5px;
   margin-right: 5px;
 }
 
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;  
+  background: #23332A;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  background: goldenrod;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+  
 img {
   border-radius: 10%;
 }

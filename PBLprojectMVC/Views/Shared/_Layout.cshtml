@@ -6,9 +6,9 @@
     <title>@ViewData["Title"] - PBL</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-
+    <link rel="stylesheet" href="~/PBLprojectMVC.styles.css" asp-append-version="true" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -18,7 +18,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Data_PBL</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PBL</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -28,20 +28,9 @@
                         <li class="nav-item">
                             <a class="nav-link btn btn-primary mx-1 nav-btn" asp-area="" asp-controller="Home" asp-action="Index">Dashboard Tempo Real</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link btn btn-primary mx-1 nav-btn" asp-area="" asp-controller="Device" asp-action="Index">Dispositivos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link btn btn-primary mx-1 nav-btn" asp-area="" asp-controller="Device" asp-action="AdvancedQuery">Consulta Avançada de Dispositivos</a>
-                        </li>
                         
                         @if(ViewBag.UserLogged == true){
-                            <li class="nav-item">
-                                <a class="nav-link btn btn-primary mx-1 nav-btn" asp-area="" asp-controller="Home" asp-action="Privacy">Devices (ainda a construir)</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link btn btn-primary mx-1 nav-btn" asp-area="" asp-controller="Home" asp-action="Privacy">Mais coisas (ainda a construir)</a>
-                            </li>
+
                             <li class="nav-item">
                                 <a class="nav-link btn btn-primary mx-1 nav-btn" asp-area="" asp-controller="Device" asp-action="Index">Dispositivos</a>
                             </li>

@@ -1,49 +1,48 @@
-﻿using PBLprojectMVC.Models;
-using System.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using PBLprojectMVC.Models;
 using System.Data.SqlClient;
+using System.Data;
 
 namespace PBLprojectMVC.DAO
 {
     public abstract class StandardDAO<T> where T : StandardViewModel
     {
+        protected abstract SqlParameter[] CreateParameters(T model);
+        protected abstract T CreateModel(DataRow row);
+        protected abstract void SetTable();
+        protected string Table { get; set; } = "";
+    
         public StandardDAO()
         {
             SetTable();
         }
 
-        protected string Table { get; set; }
-        protected string NameSpGetAll { get; set; } = "spGetAll";
-        protected string NameSpDelete { get; set; } = "spDelete";
-        protected abstract SqlParameter[] CreateParameters(T model, bool isInsert = false);
-        protected abstract T CreateModel(DataRow registro);
-        protected abstract void SetTable();
-
         public virtual void Insert(T model)
         {
-            HelperDAO.ExecuteProc("spInsert_" + Table, CreateParameters(model, true));
+            HelperDAO.ExecuteProc("spInsert_" + Table, CreateParameters(model));
         }
 
         public virtual void Update(T model)
         {
-            HelperDAO.ExecuteProc("spUpdate_" + Table, CreateParameters(model, false));
+            HelperDAO.ExecuteProc("spUpdate_" + Table, CreateParameters(model));
         }
 
         public virtual void Delete(int id)
         {
-            var p = new SqlParameter[]
-            {
-                new SqlParameter("id", id),
-                new SqlParameter("Table", Table)
+            var p = new SqlParameter[1]{
+                new SqlParameter("@Id", id),
             };
-            HelperDAO.ExecuteProc(NameSpDelete, p);
+            
+            HelperDAO.ExecuteProc("spDelete_" + Table, p);
         }
 
-        public virtual T Select(int id)
+        public virtual T? Get(int id)
         {
-            var p = new SqlParameter[]
-            {
-                new SqlParameter("id", id),
-                new SqlParameter("Table", Table)
+            var p = new SqlParameter[]{
+                new SqlParameter("@Id", id),
             };
 
             var table = HelperDAO.ExecuteProcSelect("spGet_" + Table, p);
@@ -52,23 +51,19 @@ namespace PBLprojectMVC.DAO
                 return CreateModel(table.Rows[0]);
             else
                 return null;
-            else
-                return CreateModel(resultTable.Rows[0]);
         }
 
         public virtual List<T> GetAll()
         {
-            var p = new SqlParameter[]
-            {
-                new SqlParameter("Table", Table),
-            };
-            var resultTable = HelperDAO.ExecuteProcSelect(NameSpGetAll, p);
+            var table = HelperDAO.ExecuteProcSelect("spGetAll_" + Table, null);
             List<T> list = new List<T>();
             
             foreach (DataRow row in table.Rows)
                 list.Add(CreateModel(row));
 
             return list;
+
         }
+        
     }
 }
