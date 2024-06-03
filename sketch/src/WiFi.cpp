@@ -1,4 +1,4 @@
-#include "../include/WI-FI.hpp"
+#include "../include/WiFi.hpp"
 
 #include <WiFiManager.h>
 

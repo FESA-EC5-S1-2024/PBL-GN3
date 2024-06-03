@@ -1,5 +1,5 @@
 #include "include/MQTT.hpp"
-#include "include/WI-FI.hpp"
+#include "include/WiFi.hpp"
 #include "include/config.hpp"
 #include "include/measurements.hpp"
 

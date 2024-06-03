@@ -1,7 +1,6 @@
 #include "../include/config.hpp"
 
 void reconnectMQTT();
-void reconectWiFi();
 
 WiFiClient espClient;
 PubSubClient MQTT(espClient);

@@ -71,5 +71,3 @@ float highResolutionTemperature() {
 
   return interpolate((float)total / SAMPLES);
 }
-
-float lowResolutionTemperature() { return interpolate(readTemperature()); }
