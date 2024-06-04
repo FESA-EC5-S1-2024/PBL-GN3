@@ -10,7 +10,7 @@ void initWiFi() {
 
   // Tenta conectar à rede WiFi usando o SSID e a senha especificados.
   // Se não conseguir se conectar, reinicia o ESP32.
-  res = wm.autoConnect("PBL-GN3", "password");
+  res = wm.autoConnect("PBL-Grupo6", "password");
 
   if (!res) {
     Serial.println("Failed to connect"); // Exibe mensagem de falha na conexão

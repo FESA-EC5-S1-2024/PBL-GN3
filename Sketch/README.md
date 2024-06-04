@@ -31,6 +31,12 @@ no tópico MQTT. Abaixo, um diagrama que exemplifica a lógica utilizada no ESP3
 
 </details>
 
+&nbsp;
+
+Para saber as bibliotecas necessárias e como compilar o código, verifique na 
+documentação principal do projeto no tópico `Como Usar` itens 6 e 7, e o item 8 
+fala sobre como configurar o hotspot.
+
 ### Setup
 ****
 
@@ -40,7 +46,7 @@ O ESP32 é configurado para se conectar à rede WiFi local usando o WiFiManager,
 que permite que o usuário selecione a rede e insira a senha por meio de um 
 hotspot criado pelo ESP32.
 
-O hotspot genérico criado tem o nome de `PBL-GN3`, e a senha de acesso é 
+O hotspot genérico criado tem o nome de `PBL-Grupo6`, e a senha de acesso é 
 `password`. Caso queira mudar esses parâmetros, basta alterar o arquivo 
 `WiFi.cpp`.
 
@@ -52,6 +58,7 @@ publicação.
 
 ### Núcleos
 ****
+
 #### Leitura Analógica e Interpolação da Temperatura
 
 O ESP32 lê, por meio da porta analógica `TEMPERATURE_PIN` definida no arquivo 
