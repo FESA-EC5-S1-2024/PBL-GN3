@@ -38,6 +38,7 @@ void Task1code(void *pvParameters) {
       VerificaConexoesWiFIEMQTT(); // Verifica conexões WiFi e MQTT
       MQTT.loop();                 // Mantém a comunicação MQTT
     }
+    delay(100); // Necessário para o watchdog não desligar o ESP32
   }
 }
 
